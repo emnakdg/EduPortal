@@ -1,0 +1,40 @@
+﻿@model List<EduPortal.Application.DTOs.ClassDto>
+@{
+    ViewData["Title"] = "Tüm Sınıflar";
+}
+
+<div class="page-header">
+    <p class="page-subtitle">Tüm sınıfları görüntüleyin — herhangi birine ödev atayabilirsiniz</p>
+</div>
+<br />
+
+<div class="card">
+    <div class="card-header">
+        <h3>Sınıf Listesi</h3>
+    </div>
+    <div class="card-body">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Sınıf</th>
+                    <th>Dönem</th>
+                    <th>Derslik</th>
+                    <th>Sorumlu Öğretmen</th>
+                    <th>Öğrenci Sayısı</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var c in Model)
+                {
+                    <tr>
+                        <td><strong>@c.Name</strong></td>
+                        <td>@c.Semester</td>
+                        <td>@(c.Room ?? "-")</td>
+                        <td>@c.TeacherName</td>
+                        <td><span class="badge badge-blue">@c.StudentCount</span></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

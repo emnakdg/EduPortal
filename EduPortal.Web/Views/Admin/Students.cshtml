@@ -1,0 +1,75 @@
+﻿@model List<EduPortal.Application.DTOs.StudentDto>
+@{
+    ViewData["Title"] = "Öğrenciler";
+}
+
+@if (ViewBag.SuccessMessage != null)
+{
+    <div class="alert alert-success">
+        <i class="fas fa-check-circle"></i> @ViewBag.SuccessMessage
+    </div>
+}
+
+<div class="page-header">
+    <p class="page-subtitle">Toplam @Model.Count öğrenci</p>
+    <br />
+    <a asp-action="CreateStudent" class="btn-action primary">
+        <i class="fas fa-plus"></i> Yeni Öğrenci Ekle
+    </a>
+</div>
+
+<br />
+<div class="card">
+    <div class="card-header">
+        <h3>Öğrenci Listesi</h3>
+    </div>
+    <div class="card-body">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Ad Soyad</th>
+                    <th>E-posta</th>
+                    <th>Öğrenci No</th>
+                    <th>Sınıf</th>
+                    <th>Tamamlanan</th>
+                    <th>Bekleyen</th>
+                    <th>İşlem</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any())
+                {
+                    @foreach (var s in Model)
+                    {
+                        <tr>
+                            <td><strong>@s.FullName</strong></td>
+                            <td>@s.Email</td>
+                            <td><span class="badge badge-blue">@s.StudentNumber</span></td>
+                            <td>@(s.ClassName ?? "Atanmadı")</td>
+                            <td><span class="badge badge-green">@s.CompletedAssignments</span></td>
+                            <td><span class="badge badge-orange">@s.PendingAssignments</span></td>
+                            <td>
+                                <a asp-action="EditStudent" asp-route-id="@s.Id" class="btn btn-ghost btn-sm" style="margin-right:4px;">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <form asp-action="DeleteStudent" asp-route-id="@s.Id" method="post" style="display:inline;">
+                                    <button type="submit" class="btn btn-ghost btn-sm" onclick="return confirm('Bu öğrenciyi silmek istediğinize emin misiniz?')">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="7" style="text-align:center; padding:40px; color:var(--text-muted);">
+                            Henüz öğrenci eklenmemiş.
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

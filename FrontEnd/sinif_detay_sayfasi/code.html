@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sınıf Detay Sayfası - EduPortal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3c83f6",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101722",
+                        "card-dark": "#1F2937",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for dark mode tables */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1F2937;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #4B5563;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #6B7280;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-100 font-display min-h-screen">
+<!-- Sidebar Layout Wrapper -->
+<div class="flex h-screen overflow-hidden">
+<!-- Sidebar Navigation -->
+<aside class="hidden md:flex flex-col w-64 bg-white dark:bg-[#161e2c] border-r border-slate-200 dark:border-slate-800">
+<div class="h-16 flex items-center px-6 border-b border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-2 text-primary font-bold text-xl">
+<span class="material-icons-round text-3xl">school</span>
+                    EduPortal
+                </div>
+</div>
+<nav class="flex-1 overflow-y-auto py-4 px-3 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-500 dark:text-slate-400 hover:text-primary dark:hover:text-primary hover:bg-slate-50 dark:hover:bg-primary/10 rounded-lg transition-colors group" href="#">
+<span class="material-icons-round group-hover:text-primary transition-colors">dashboard</span>
+<span class="font-medium">Panel</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 bg-primary/10 text-primary rounded-lg transition-colors group" href="#">
+<span class="material-icons-round text-primary">class</span>
+<span class="font-medium">Sınıflar</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-500 dark:text-slate-400 hover:text-primary dark:hover:text-primary hover:bg-slate-50 dark:hover:bg-primary/10 rounded-lg transition-colors group" href="#">
+<span class="material-icons-round group-hover:text-primary transition-colors">people</span>
+<span class="font-medium">Öğrenciler</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-500 dark:text-slate-400 hover:text-primary dark:hover:text-primary hover:bg-slate-50 dark:hover:bg-primary/10 rounded-lg transition-colors group" href="#">
+<span class="material-icons-round group-hover:text-primary transition-colors">assignment</span>
+<span class="font-medium">Ödevler</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-500 dark:text-slate-400 hover:text-primary dark:hover:text-primary hover:bg-slate-50 dark:hover:bg-primary/10 rounded-lg transition-colors group" href="#">
+<span class="material-icons-round group-hover:text-primary transition-colors">calendar_today</span>
+<span class="font-medium">Takvim</span>
+</a>
+</nav>
+<div class="p-4 border-t border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-3">
+<img alt="User Profile" class="h-10 w-10 rounded-full object-cover ring-2 ring-primary/20" data-alt="Male teacher portrait smiling" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOTFVkoZW77bo86_HtTIaK5oP8BlezBaPffwy6eBH_Kl9KHz07tA0wzZQGucVKdFRi7mbjT7U367uwSfNnQR4v_O5W6BoL_Kf2MhAto3YCzMy6UVOOhEw1sdNW7zY2FVoB4PBa-0ytvhcs3drX6bK-IiLhx81GFfUUCOrLiBLm6wt9dG9dyAh0fbbAjy1EabiCGGgHVoraDGSvQo_B8dQK_YMv-lvrMU_8ng5C6TordYjh8Mi7I9zmVXZM9NoYh9zJbjmtSidlAC_f"/>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-medium text-slate-900 dark:text-white truncate">Hakan Yılmaz</p>
+<p class="text-xs text-slate-500 dark:text-slate-400 truncate">Matematik Öğrt.</p>
+</div>
+<button class="text-slate-400 hover:text-white transition-colors">
+<span class="material-icons-round">logout</span>
+</button>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col h-full overflow-hidden relative">
+<!-- Top Header -->
+<header class="h-16 flex items-center justify-between px-6 bg-white/50 dark:bg-background-dark/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 z-10">
+<!-- Breadcrumb -->
+<nav aria-label="Breadcrumb" class="flex">
+<ol class="inline-flex items-center space-x-1 md:space-x-3">
+<li class="inline-flex items-center">
+<a class="inline-flex items-center text-sm font-medium text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-white" href="#">
+                                Sınıflar
+                            </a>
+</li>
+<li>
+<div class="flex items-center">
+<span class="material-icons-round text-slate-400 text-lg">chevron_right</span>
+<a aria-current="page" class="ml-1 text-sm font-medium text-slate-900 dark:text-white md:ml-2" href="#">Matematik 10-A</a>
+</div>
+</li>
+</ol>
+</nav>
+<div class="flex items-center gap-3">
+<button class="flex items-center justify-center h-9 w-9 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 transition-colors relative">
+<span class="material-icons-round text-xl">notifications</span>
+<span class="absolute top-2 right-2 h-2 w-2 rounded-full bg-red-500 border border-white dark:border-background-dark"></span>
+</button>
+<button class="hidden sm:flex items-center gap-2 px-4 py-2 text-sm font-medium text-primary bg-primary/10 hover:bg-primary/20 rounded-lg transition-colors">
+<span class="material-icons-round text-base">settings</span>
+                        Sınıf Ayarları
+                    </button>
+</div>
+</header>
+<!-- Scrollable Page Content -->
+<div class="flex-1 overflow-y-auto custom-scrollbar p-6 lg:p-8">
+<div class="max-w-7xl mx-auto space-y-6">
+<!-- Page Title & Actions -->
+<div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+<div>
+<h1 class="text-2xl font-bold text-slate-900 dark:text-white">Matematik 10-A</h1>
+<p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Güz Dönemi • 24 Öğrenci • Derslik 302</p>
+</div>
+</div>
+<!-- Stats Row -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Stat Card 1 -->
+<div class="bg-white dark:bg-card-dark p-6 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm relative overflow-hidden group">
+<div class="absolute right-0 top-0 h-24 w-24 bg-primary/10 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110"></div>
+<div class="relative z-10">
+<div class="flex items-center justify-between mb-4">
+<div class="h-10 w-10 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400">
+<span class="material-icons-round">analytics</span>
+</div>
+<span class="flex items-center text-xs font-medium text-emerald-500 bg-emerald-100 dark:bg-emerald-900/30 px-2 py-1 rounded-full">
+<span class="material-icons-round text-sm mr-1">trending_up</span>
+                                        +2.4%
+                                    </span>
+</div>
+<h3 class="text-slate-500 dark:text-slate-400 text-sm font-medium">Sınıf Ortalaması</h3>
+<p class="text-3xl font-bold text-slate-900 dark:text-white mt-1">78.4</p>
+</div>
+</div>
+<!-- Stat Card 2 -->
+<div class="bg-white dark:bg-card-dark p-6 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm relative overflow-hidden group">
+<div class="absolute right-0 top-0 h-24 w-24 bg-purple-500/10 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110"></div>
+<div class="relative z-10">
+<div class="flex items-center justify-between mb-4">
+<div class="h-10 w-10 rounded-lg bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center text-purple-600 dark:text-purple-400">
+<span class="material-icons-round">rule</span>
+</div>
+<span class="flex items-center text-xs font-medium text-emerald-500 bg-emerald-100 dark:bg-emerald-900/30 px-2 py-1 rounded-full">
+<span class="material-icons-round text-sm mr-1">check</span>
+                                        Yüksek
+                                    </span>
+</div>
+<h3 class="text-slate-500 dark:text-slate-400 text-sm font-medium">Devamlılık Oranı</h3>
+<p class="text-3xl font-bold text-slate-900 dark:text-white mt-1">94%</p>
+</div>
+</div>
+<!-- Stat Card 3 -->
+<div class="bg-white dark:bg-card-dark p-6 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm relative overflow-hidden group">
+<div class="absolute right-0 top-0 h-24 w-24 bg-orange-500/10 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110"></div>
+<div class="relative z-10">
+<div class="flex items-center justify-between mb-4">
+<div class="h-10 w-10 rounded-lg bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center text-orange-600 dark:text-orange-400">
+<span class="material-icons-round">assignment_turned_in</span>
+</div>
+<span class="flex items-center text-xs font-medium text-amber-500 bg-amber-100 dark:bg-amber-900/30 px-2 py-1 rounded-full">
+<span class="material-icons-round text-sm mr-1">remove</span>
+                                        Stabil
+                                    </span>
+</div>
+<h3 class="text-slate-500 dark:text-slate-400 text-sm font-medium">Ödev Tamamlama</h3>
+<p class="text-3xl font-bold text-slate-900 dark:text-white mt-1">89%</p>
+</div>
+</div>
+</div>
+<!-- Filters & Search -->
+<div class="flex flex-col md:flex-row gap-4 justify-between items-center bg-white dark:bg-card-dark p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+<div class="relative w-full md:w-96">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-icons-round text-slate-400">search</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-2.5 border border-slate-200 dark:border-slate-600 rounded-lg leading-5 bg-slate-50 dark:bg-background-dark text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:bg-white dark:focus:bg-background-dark focus:ring-1 focus:ring-primary focus:border-primary sm:text-sm transition-colors" placeholder="Öğrenci ara (Ad, Soyad veya No)..." type="text"/>
+</div>
+<div class="flex items-center gap-3 w-full md:w-auto">
+<select class="block w-full md:w-40 pl-3 pr-10 py-2.5 text-base border-slate-200 dark:border-slate-600 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-lg bg-slate-50 dark:bg-background-dark text-slate-900 dark:text-slate-100">
+<option>Tüm Durumlar</option>
+<option>Risk Altında</option>
+<option>Başarılı</option>
+</select>
+<select class="block w-full md:w-40 pl-3 pr-10 py-2.5 text-base border-slate-200 dark:border-slate-600 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-lg bg-slate-50 dark:bg-background-dark text-slate-900 dark:text-slate-100">
+<option>Sırala: Ad (A-Z)</option>
+<option>Sırala: Not (Azalan)</option>
+<option>Sırala: Not (Artan)</option>
+</select>
+<button class="flex-shrink-0 bg-primary hover:bg-blue-600 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 shadow-lg shadow-primary/30">
+<span class="material-icons-round text-lg">add</span>
+<span class="hidden sm:inline">Öğrenci Ekle</span>
+</button>
+</div>
+</div>
+<!-- Students Table -->
+<div class="bg-white dark:bg-card-dark rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
+<div class="overflow-x-auto">
+<table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
+<thead class="bg-slate-50 dark:bg-slate-800/50">
+<tr>
+<th class="px-6 py-4 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider" scope="col">
+                                            Öğrenci Bilgisi
+                                        </th>
+<th class="px-6 py-4 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider" scope="col">
+                                            Son Ödev Notu
+                                        </th>
+<th class="px-6 py-4 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider w-1/3" scope="col">
+                                            Genel İlerleme
+                                        </th>
+<th class="px-6 py-4 text-right text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider" scope="col">
+                                            İşlemler
+                                        </th>
+</tr>
+</thead>
+<tbody class="bg-white dark:bg-card-dark divide-y divide-slate-200 dark:divide-slate-700">
+<!-- Row 1 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="flex-shrink-0 h-10 w-10 relative">
+<img alt="Female student portrait" class="h-10 w-10 rounded-full object-cover ring-2 ring-white dark:ring-card-dark" data-alt="Portrait of a young female student with long hair" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5KpLqAiiJXV_VtrMsQR72l2SPO9JK-lZ17fiNtk-AhBh04OF0Uvri1VdncHUUjyFxmVf8q2kQtBihXlnT1vq5p9K5zO2m3fMEesNlGCR4TLrAZUYwxs_CHb8HW4Bq7bljUqxpkmK17_2er83CzY0buVVeHw1YBf3PEwKdeqqyXynxRipzxX4LG9mW3uEwPeOmccHyJnUU8nmakYlr-GA2780fz9b1Gqev6_zVfUbxQTkPB8jBpS-r2RONctCK5-PBWxq4ANWKGSMz"/>
+<div class="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-emerald-500 border-2 border-white dark:border-card-dark"></div>
+</div>
+<div class="ml-4">
+<div class="text-sm font-medium text-slate-900 dark:text-white">Ayşe Demir</div>
+<div class="text-xs text-slate-500 dark:text-slate-400">ID: #20231001</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
+                                                92 / 100
+                                            </span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap align-middle">
+<div class="w-full">
+<div class="flex items-center justify-between mb-1">
+<span class="text-xs font-medium text-slate-500 dark:text-slate-400">Başarı: Mükemmel</span>
+<span class="text-xs font-medium text-slate-900 dark:text-white">88%</span>
+</div>
+<div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
+<div class="bg-primary h-2 rounded-full" style="width: 88%"></div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+<button class="text-slate-400 hover:text-primary transition-colors p-2 rounded-lg hover:bg-primary/10">
+<span class="material-icons-round">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="flex-shrink-0 h-10 w-10 relative">
+<img alt="Male student portrait" class="h-10 w-10 rounded-full object-cover ring-2 ring-white dark:ring-card-dark" data-alt="Portrait of a young male student looking forward" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyWtuU47TpPVqU8sOQCdjRffK6zqQqVgdGT2KA8I4th_xglcGsSmaCxFKpCpONVzxtCDug2TLX6xGW0hTMSiTGNA12-Zk0CjrRluVLMBB5aukL7qZFZgPaPxUNRZcuLzzovPaIfwI7dENFXJEdkQKIRdMIpJ44QrXhmb9M7anp8QkVXcnDyi4syS0HDd-zJQvv2EhixyPRC7qV3JnLC7HyLtRI25jUZCJnzg3lhrAITYYcjW4Mp_esuY2i7GOBGq1wIBzNzyuBcMm0"/>
+<div class="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-emerald-500 border-2 border-white dark:border-card-dark"></div>
+</div>
+<div class="ml-4">
+<div class="text-sm font-medium text-slate-900 dark:text-white">Mehmet Kaya</div>
+<div class="text-xs text-slate-500 dark:text-slate-400">ID: #20231002</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400">
+                                                74 / 100
+                                            </span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap align-middle">
+<div class="w-full">
+<div class="flex items-center justify-between mb-1">
+<span class="text-xs font-medium text-slate-500 dark:text-slate-400">Başarı: İyi</span>
+<span class="text-xs font-medium text-slate-900 dark:text-white">72%</span>
+</div>
+<div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
+<div class="bg-amber-500 h-2 rounded-full" style="width: 72%"></div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+<button class="text-slate-400 hover:text-primary transition-colors p-2 rounded-lg hover:bg-primary/10">
+<span class="material-icons-round">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="flex-shrink-0 h-10 w-10 relative">
+<div class="h-10 w-10 rounded-full bg-indigo-500 flex items-center justify-center text-white font-bold ring-2 ring-white dark:ring-card-dark">
+                                                        EC
+                                                    </div>
+</div>
+<div class="ml-4">
+<div class="text-sm font-medium text-slate-900 dark:text-white">Elif Çelik</div>
+<div class="text-xs text-slate-500 dark:text-slate-400">ID: #20231003</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400">
+                                                45 / 100
+                                            </span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap align-middle">
+<div class="w-full">
+<div class="flex items-center justify-between mb-1">
+<span class="text-xs font-medium text-slate-500 dark:text-slate-400">Risk Altında</span>
+<span class="text-xs font-medium text-slate-900 dark:text-white">48%</span>
+</div>
+<div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
+<div class="bg-red-500 h-2 rounded-full" style="width: 48%"></div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+<button class="text-slate-400 hover:text-primary transition-colors p-2 rounded-lg hover:bg-primary/10">
+<span class="material-icons-round">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="flex-shrink-0 h-10 w-10 relative">
+<img alt="Male student portrait" class="h-10 w-10 rounded-full object-cover ring-2 ring-white dark:ring-card-dark" data-alt="Portrait of a young male student in a suit" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBX7lecI9uQ4b0vlx25QpDh4w6VDuGZh8Y63gc96G4L0tC5t5lhnokNVgbo7CTunFYWuzz3aO2ZX2oXvdXOlunkEfgbqy37u6lzwchawv3palmwsB4Iof0Jo0j7S_gQQCAiAtW-VgoVa2VNVwZabzJaFGTP0KJbOvqzHxT-F-L5i2o1Ln5qmlcdVzsTNkfgbp1_IafvjufT79dRdPZs8SBgjZrcKwo7N457Ht6TFX2ZZNMYp9-ACvvPFnW3ZYsc62evsllElDNdwK0X"/>
+<div class="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-emerald-500 border-2 border-white dark:border-card-dark"></div>
+</div>
+<div class="ml-4">
+<div class="text-sm font-medium text-slate-900 dark:text-white">Burak Şahin</div>
+<div class="text-xs text-slate-500 dark:text-slate-400">ID: #20231004</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
+                                                88 / 100
+                                            </span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap align-middle">
+<div class="w-full">
+<div class="flex items-center justify-between mb-1">
+<span class="text-xs font-medium text-slate-500 dark:text-slate-400">Başarı: İyi</span>
+<span class="text-xs font-medium text-slate-900 dark:text-white">82%</span>
+</div>
+<div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
+<div class="bg-primary h-2 rounded-full" style="width: 82%"></div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+<button class="text-slate-400 hover:text-primary transition-colors p-2 rounded-lg hover:bg-primary/10">
+<span class="material-icons-round">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="flex-shrink-0 h-10 w-10 relative">
+<img alt="Female student portrait" class="h-10 w-10 rounded-full object-cover ring-2 ring-white dark:ring-card-dark" data-alt="Portrait of a young female student with short hair" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxK8qQ_KvgxMUqoOhDPzL2VljeTI5P8HL7YFCHAGf5ep3d7FrGWYATWeUrsSgD7aDdbWix8fOwCfMho33vxzc2r_Rx9LFv1tIv_V6Wi4RJVtkQdTbKOYQrOexBozoxoXjMbxzJSCDRFrso80JHxY2DosaN7QTsngeHrPRiu6XXOAqXHbTN3Aitpiw8LH_WdYq6FGWdazJgNQMDBUJ349SeqWNXy2rt2Ez-VaC69HwqlKin36Lk8h2kroZ3-t1419OUoi0n1enk8TRD"/>
+<div class="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-gray-400 border-2 border-white dark:border-card-dark"></div>
+</div>
+<div class="ml-4">
+<div class="text-sm font-medium text-slate-900 dark:text-white">Zeynep Özkan</div>
+<div class="text-xs text-slate-500 dark:text-slate-400">ID: #20231005</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400">
+                                                68 / 100
+                                            </span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap align-middle">
+<div class="w-full">
+<div class="flex items-center justify-between mb-1">
+<span class="text-xs font-medium text-slate-500 dark:text-slate-400">Stabil</span>
+<span class="text-xs font-medium text-slate-900 dark:text-white">65%</span>
+</div>
+<div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
+<div class="bg-amber-500 h-2 rounded-full" style="width: 65%"></div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+<button class="text-slate-400 hover:text-primary transition-colors p-2 rounded-lg hover:bg-primary/10">
+<span class="material-icons-round">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="bg-white dark:bg-card-dark px-4 py-3 border-t border-slate-200 dark:border-slate-700 flex items-center justify-between sm:px-6">
+<div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+<div>
+<p class="text-sm text-slate-700 dark:text-slate-400">
+                                        Toplam <span class="font-medium">24</span> öğrenciden <span class="font-medium">1</span> ile <span class="font-medium">5</span> arası gösteriliyor
+                                    </p>
+</div>
+<div>
+<nav aria-label="Pagination" class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
+<a class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-slate-300 dark:border-slate-600 bg-white dark:bg-background-dark text-sm font-medium text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800" href="#">
+<span class="sr-only">Önceki</span>
+<span class="material-icons-round text-base">chevron_left</span>
+</a>
+<a aria-current="page" class="z-10 bg-primary/10 border-primary text-primary relative inline-flex items-center px-4 py-2 border text-sm font-medium" href="#">
+                                            1
+                                        </a>
+<a class="bg-white dark:bg-background-dark border-slate-300 dark:border-slate-600 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 relative inline-flex items-center px-4 py-2 border text-sm font-medium" href="#">
+                                            2
+                                        </a>
+<a class="bg-white dark:bg-background-dark border-slate-300 dark:border-slate-600 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 relative inline-flex items-center px-4 py-2 border text-sm font-medium" href="#">
+                                            3
+                                        </a>
+<a class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-slate-300 dark:border-slate-600 bg-white dark:bg-background-dark text-sm font-medium text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800" href="#">
+<span class="sr-only">Sonraki</span>
+<span class="material-icons-round text-base">chevron_right</span>
+</a>
+</nav>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer class="mt-8 text-center text-xs text-slate-400 dark:text-slate-600 pb-4">
+<p>© 2023 EduPortal Education Systems. Tüm hakları saklıdır.</p>
+</footer>
+</div>
+</main>
+</div>
+</body></html>

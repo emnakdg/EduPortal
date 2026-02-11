@@ -1,0 +1,112 @@
+﻿@{
+    var currentPage = ViewContext.RouteData.Values["page"]?.ToString() ?? "";
+}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - EduPortal</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+    <div class="app-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <div class="auth-logo-icon">🎓</div>
+                    <span>EduPortal</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <span class="nav-section-title">ANA MENÜ</span>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a href="/Admin/Dashboard" class="nav-item @(currentPage!.Contains("Admin/Dashboard") ? "active" : "")">
+                            <i class="fas fa-chart-pie"></i> Dashboard
+                        </a>
+                        <a href="/Admin/Teachers" class="nav-item @(currentPage!.Contains("Admin/Teachers") ? "active" : "")">
+                            <i class="fas fa-chalkboard-teacher"></i> Öğretmenler
+                        </a>
+                        <a href="/Admin/Students" class="nav-item @(currentPage!.Contains("Admin/Students") ? "active" : "")">
+                            <i class="fas fa-user-graduate"></i> Öğrenciler
+                        </a>
+                        <a href="/Admin/Classes" class="nav-item @(currentPage!.Contains("Admin/Classes") ? "active" : "")">
+                            <i class="fas fa-school"></i> Sınıflar
+                        </a>
+                        <a href="/Admin/Subjects" class="nav-item @(currentPage!.Contains("Admin/Subjects") ? "active" : "")">
+                            <i class="fas fa-book"></i> Müfredat
+                        </a>
+                    }
+                    else if (User.IsInRole("Teacher"))
+                    {
+                        <a href="/Teacher/Dashboard" class="nav-item @(currentPage!.Contains("Teacher/Dashboard") ? "active" : "")">
+                            <i class="fas fa-chart-pie"></i> Dashboard
+                        </a>
+                        <a href="/Teacher/Classes" class="nav-item @(currentPage!.Contains("Teacher/Classes") ? "active" : "")">
+                            <i class="fas fa-school"></i> Sınıflarım
+                        </a>
+                        <a href="/Teacher/Assignments" class="nav-item @(currentPage!.Contains("Teacher/Assignments") ? "active" : "")">
+                            <i class="fas fa-tasks"></i> Ödevler
+                        </a>
+                    }
+                    else if (User.IsInRole("Student"))
+                    {
+                        <a href="/Student/Dashboard" class="nav-item @(currentPage!.Contains("Student/Dashboard") ? "active" : "")">
+                            <i class="fas fa-chart-pie"></i> Dashboard
+                        </a>
+                        <a href="/Student/Assignments" class="nav-item @(currentPage!.Contains("Student/Assignments") ? "active" : "")">
+                            <i class="fas fa-tasks"></i> Ödevlerim
+                        </a>
+                    }
+                </div>
+
+                <div class="nav-section">
+                    <span class="nav-section-title">AYARLAR</span>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-cog"></i> Ayarlar
+                    </a>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <form method="post" asp-action="Logout" asp-controller="Account">
+                    <button type="submit" class="nav-item logout-btn">
+                        <i class="fas fa-sign-out-alt"></i> Çıkış Yap
+                    </button>
+                </form>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-navbar">
+                <div class="navbar-left">
+                    <h2 class="page-title">@ViewData["Title"]</h2>
+                </div>
+                <div class="navbar-right">
+                    <button class="navbar-icon-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                    <div class="user-menu">
+                        <div class="user-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <span class="user-name">@User.Identity?.Name</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="page-content">
+                @RenderBody()
+            </div>
+        </main>
+    </div>
+
+    <script src="~/js/site.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,87 @@
+﻿@model List<EduPortal.Application.DTOs.AssignmentDto>
+@{
+    ViewData["Title"] = "Ödevlerim";
+}
+
+@if (ViewBag.SuccessMessage != null)
+{
+    <div class="alert alert-success">
+        <i class="fas fa-check-circle"></i> @ViewBag.SuccessMessage
+    </div>
+}
+
+<div class="page-header">
+    <p class="page-subtitle">Toplam @Model.Count ödev</p>
+    <br />
+    <a asp-action="CreateAssignment" class="btn-action primary">
+        <i class="fas fa-plus"></i> Yeni Ödev Oluştur
+    </a>
+</div>
+
+<br />
+<div class="card">
+    <div class="card-header">
+        <h3>Ödev Listesi</h3>
+    </div>
+    <div class="card-body">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Ödev</th>
+                    <th>Ders</th>
+                    <th>Konu</th>
+                    <th>Soru</th>
+                    <th>Öğrenci</th>
+                    <th>Son Tarih</th>
+                    <th>Öncelik</th>
+                    <th>İşlem</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any())
+                {
+                    @foreach (var a in Model)
+                    {
+                        <tr>
+                            <td><strong>@a.Title</strong></td>
+                            <td><span class="badge badge-blue">@a.SubjectName</span></td>
+                            <td>@a.TopicName</td>
+                            <td>@a.QuestionCount</td>
+                            <td><span class="badge badge-green">@a.AssignedStudentCount</span></td>
+                            <td>@a.DueDate.ToString("dd.MM.yyyy")</td>
+                            <td>
+                                @if (a.Priority == EduPortal.Domain.Enums.AssignmentPriority.High)
+                                {
+                                    <span class="badge badge-red">Yüksek</span>
+                                }
+                                else if (a.Priority == EduPortal.Domain.Enums.AssignmentPriority.Medium)
+                                {
+                                    <span class="badge badge-orange">Orta</span>
+                                }
+                                else
+                                {
+                                    <span class="badge badge-green">Düşük</span>
+                                }
+                            </td>
+                            <td>
+                                <form asp-action="DeleteAssignment" asp-route-id="@a.Id" method="post" style="display:inline;">
+                                    <button type="submit" class="btn btn-ghost btn-sm" onclick="return confirm('Bu ödevi silmek istediğinize emin misiniz?')">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="8" style="text-align:center; padding:40px; color:var(--text-muted);">
+                            Henüz ödev oluşturulmamış. <a asp-action="CreateAssignment">İlk ödevinizi oluşturun!</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

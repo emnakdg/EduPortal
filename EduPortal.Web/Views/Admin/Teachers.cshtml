@@ -1,0 +1,73 @@
+﻿@model List<EduPortal.Application.DTOs.TeacherDto>
+@{
+    ViewData["Title"] = "Öğretmenler";
+}
+
+@if (ViewBag.SuccessMessage != null)
+{
+    <div class="alert alert-success">
+        <i class="fas fa-check-circle"></i> @ViewBag.SuccessMessage
+    </div>
+}
+
+<div class="page-header">
+    <p class="page-subtitle">Toplam @Model.Count öğretmen</p>
+    <br />
+    <a asp-action="CreateTeacher" class="btn-action primary">
+        <i class="fas fa-plus"></i> Yeni Öğretmen Ekle
+    </a>
+</div>
+<br />
+
+<div class="card">
+    <div class="card-header">
+        <h3>Öğretmen Listesi</h3>
+    </div>
+    <div class="card-body">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Ad Soyad</th>
+                    <th>E-posta</th>
+                    <th>Branş</th>
+                    <th>Sınıf Sayısı</th>
+                    <th>Öğrenci Sayısı</th>
+                    <th>İşlem</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any())
+                {
+                    @foreach (var teacher in Model)
+                    {
+                        <tr>
+                            <td><strong>@teacher.FullName</strong></td>
+                            <td>@teacher.Email</td>
+                            <td><span class="badge badge-purple">@teacher.Branch</span></td>
+                            <td>@teacher.ClassCount</td>
+                            <td>@teacher.StudentCount</td>
+                            <td>
+                                <a asp-action="EditTeacher" asp-route-id="@teacher.Id" class="btn btn-ghost btn-sm" style="margin-right:4px;">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <form asp-action="DeleteTeacher" asp-route-id="@teacher.Id" method="post" style="display:inline;">
+                                    <button type="submit" class="btn btn-ghost btn-sm" onclick="return confirm('Bu öğretmeni silmek istediğinize emin misiniz?')">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6" style="text-align:center; padding:40px; color:var(--text-muted);">
+                            Henüz öğretmen eklenmemiş.
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,129 @@
+﻿@model EduPortal.Web.ViewModels.Teacher.CreateAssignmentViewModel
+@{
+    ViewData["Title"] = "Yeni Ödev Oluştur";
+    var classes = ViewBag.Classes as List<EduPortal.Application.DTOs.ClassDto> ?? new();
+    var subjects = ViewBag.Subjects as List<EduPortal.Application.DTOs.SubjectDto> ?? new();
+}
+
+<div class="page-header">
+    <p class="page-subtitle">Öğrencilerinize yeni bir ödev atayın</p>
+    <br />
+    <a asp-action="Assignments" class="btn-action"><i class="fas fa-arrow-left"></i> Geri Dön</a>
+</div>
+
+<br />
+<div class="card">
+    <div class="card-header">
+        <h3>Ödev Bilgileri</h3>
+    </div>
+    <div class="card-body" style="padding: 24px;">
+        <form asp-action="CreateAssignment" method="post">
+            <div asp-validation-summary="ModelOnly" class="alert alert-error" style="display:@(ViewData.ModelState.ErrorCount > 0 ? "flex" : "none")"></div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label asp-for="Title"></label>
+                    <input asp-for="Title" class="form-input form-input-no-icon" placeholder="Fonksiyonlar Quiz 1" />
+                    <span asp-validation-for="Title" style="color:var(--red); font-size:0.8rem;"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="QuestionCount"></label>
+                    <input asp-for="QuestionCount" type="number" min="1" max="100" class="form-input form-input-no-icon" />
+                    <span asp-validation-for="QuestionCount" style="color:var(--red); font-size:0.8rem;"></span>
+                </div>
+                <div class="form-group" style="grid-column: 1 / -1;">
+                    <label asp-for="Description"></label>
+                    <textarea asp-for="Description" class="form-input form-input-no-icon" rows="3" placeholder="Ödev açıklaması (opsiyonel)"></textarea>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TopicId">Konu (@(ViewBag.TeacherBranch))</label>
+                    <select asp-for="TopicId" class="form-input form-input-no-icon">
+                        <option value="">-- Konu Seçin --</option>
+                        @foreach (var subject in subjects)
+                        {
+                            @foreach (var unit in subject.Units)
+                            {
+                                <optgroup label="📂 @unit.Name">
+                                    @foreach (var topic in unit.Topics)
+                                    {
+                                        <option value="@topic.Id">@topic.Name</option>
+                                    }
+                                </optgroup>
+                            }
+                        }
+                    </select>
+                    <span asp-validation-for="TopicId" style="color:var(--red); font-size:0.8rem;"></span>
+                </div>
+                <div class="form-group" style="grid-column: 1 / -1;">
+                    <label>Sınıf Seçin (öğrencileri görmek için)</label>
+                    <select id="classSelect" class="form-input form-input-no-icon" onchange="filterStudents()">
+                        <option value="">-- Tüm Öğrenciler --</option>
+                        @foreach (var cls in classes)
+                        {
+                            <option value="@cls.Id">@cls.Name (@cls.StudentCount öğrenci)</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="form-group" style="grid-column: 1 / -1;">
+                    <label>Öğrenciler</label>
+                    <div style="display:flex; gap:8px; margin-bottom:8px;">
+                        <button type="button" onclick="selectAll()" class="btn-action" style="font-size:0.8rem; padding:4px 12px;">Tümünü Seç</button>
+                        <button type="button" onclick="deselectAll()" class="btn-action" style="font-size:0.8rem; padding:4px 12px;">Tümünü Kaldır</button>
+                    </div>
+                    <div id="studentList" style="max-height:300px; overflow-y:auto; border:1px solid var(--border); border-radius:8px; padding:12px;">
+                        @{
+                            var allStudents = ViewBag.Students as List<EduPortal.Application.DTOs.StudentDto> ?? new();
+                        }
+                        @foreach (var s in allStudents)
+                        {
+                            <label style="display:flex; align-items:center; gap:8px; padding:6px 0; cursor:pointer; color:var(--text-secondary);" data-class="@(s.ClassName ?? "")">
+                                <input type="checkbox" name="StudentIds" value="@s.Id" style="width:16px; height:16px;" />
+                                <span>@s.FullName</span>
+                                <small style="color:var(--text-muted);">(@(s.ClassName ?? "Sınıfsız"))</small>
+                            </label>
+                        }
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DueDate"></label>
+                    <input asp-for="DueDate" type="date" class="form-input form-input-no-icon" />
+                    <span asp-validation-for="DueDate" style="color:var(--red); font-size:0.8rem;"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Priority"></label>
+                    <select asp-for="Priority" class="form-input form-input-no-icon">
+                        <option value="1">Düşük</option>
+                        <option value="2" selected>Orta</option>
+                        <option value="3">Yüksek</option>
+                    </select>
+                </div>
+            </div>
+            <div style="margin-top: 20px;">
+                <button type="submit" class="btn-action primary"><i class="fas fa-save"></i> Ödevi Oluştur</button>
+                <a asp-action="Assignments" class="btn-action" style="margin-left:8px;">İptal</a>
+            </div>
+        </form>
+        @section Scripts {
+            <script>
+                function selectAll() {
+                    document.querySelectorAll('#studentList input[type="checkbox"]').forEach(cb => {
+                        if (cb.closest('label').style.display !== 'none') cb.checked = true;
+                    });
+                }
+                function deselectAll() {
+                    document.querySelectorAll('#studentList input[type="checkbox"]').forEach(cb => cb.checked = false);
+                }
+                function filterStudents() {
+                    var selected = document.getElementById('classSelect').value;
+                    document.querySelectorAll('#studentList label').forEach(label => {
+                        if (!selected || label.dataset.class === selected || label.dataset.class.includes(document.getElementById('classSelect').selectedOptions[0]?.text.split(' ')[0])) {
+                            label.style.display = 'flex';
+                        } else {
+                            label.style.display = 'none';
+                        }
+                    });
+                }
+            </script>
+        }
+    </div>
+</div>

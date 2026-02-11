@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EduPortal - Müfredat Yönetimi</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3c83f6",
+                        "primary-hover": "#2563eb",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101722",
+                        "surface-dark": "#1e293b",
+                        "surface-darker": "#0f172a",
+                        "border-dark": "#334155",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for dark theme lists */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .drag-handle {
+            cursor: grab;
+        }
+        .drag-handle:active {
+            cursor: grabbing;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased h-screen flex flex-col overflow-hidden">
+<!-- Top Navigation / Header -->
+<header class="h-16 border-b border-gray-200 dark:border-border-dark flex items-center justify-between px-6 bg-white dark:bg-surface-darker shrink-0 z-20">
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<div class="h-8 w-8 bg-primary rounded-lg flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-primary/30">E</div>
+<span class="font-bold text-lg tracking-tight">EduPortal</span>
+</div>
+<div class="h-6 w-px bg-gray-200 dark:bg-border-dark mx-2"></div>
+<nav class="flex items-center text-sm font-medium text-slate-500 dark:text-slate-400">
+<span class="hover:text-primary cursor-pointer transition-colors">Yönetim Paneli</span>
+<span class="material-icons text-base mx-1">chevron_right</span>
+<span class="text-slate-900 dark:text-white">Müfredat Yönetimi</span>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 mr-2">
+<span class="text-xs text-slate-500 font-medium">SON KAYIT: 14:32</span>
+<div class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></div>
+</div>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary-hover text-white rounded-lg font-medium text-sm transition-colors shadow-lg shadow-primary/25">
+<span class="material-icons text-sm">save</span>
+                Değişiklikleri Yayınla
+            </button>
+<div class="h-10 w-10 rounded-full bg-surface-dark border border-border-dark overflow-hidden relative cursor-pointer hover:border-primary transition-colors">
+<img alt="Admin user profile" class="h-full w-full object-cover" data-alt="Profile picture of a smiling man" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCf-TfJWzTR4TcS33bE5UAGKHBkkfO6_KK2ewvWTF7nyuvFcgpKTStJGaji1DhdoDJWwCA_UdzTvghB_aL5_wJK9eR2pXplMOuytteI-wnHVEGTzAUbw1PIAIgMk7SoiNX8oBhwkbq3wzxhH1ck4D-45BNUfICN_1-SfeGc0d8DxiiSztnTV1cHBf18GwidG3L2kMF0DNSFIsyv_B2yfHr6uiZZ8MVGswII35lZRjYrxZJIyQTwzJ9eDN59JRotXZsryaTVmiQWFprK"/>
+</div>
+</div>
+</header>
+<!-- Main Content Area - 3 Column Layout -->
+<main class="flex-1 flex overflow-hidden p-6 gap-6">
+<!-- Column 1: DERSLER (Courses) -->
+<section class="flex-1 flex flex-col bg-white dark:bg-surface-dark rounded-xl border border-gray-200 dark:border-border-dark shadow-xl shadow-black/5 overflow-hidden min-w-[300px]">
+<!-- Column Header -->
+<div class="p-4 border-b border-gray-100 dark:border-border-dark bg-gray-50 dark:bg-surface-darker/50 flex items-center justify-between shrink-0">
+<div class="flex items-center gap-2">
+<span class="material-icons text-primary text-xl">school</span>
+<h2 class="font-semibold text-lg">Dersler</h2>
+<span class="bg-gray-200 dark:bg-slate-700 text-xs px-2 py-0.5 rounded-full font-medium text-slate-600 dark:text-slate-300">5</span>
+</div>
+<button class="h-8 w-8 flex items-center justify-center rounded-lg hover:bg-gray-200 dark:hover:bg-slate-700 text-primary transition-colors" title="Yeni Ders Ekle">
+<span class="material-icons">add</span>
+</button>
+</div>
+<!-- List -->
+<div class="flex-1 overflow-y-auto custom-scrollbar p-3 space-y-2">
+<!-- Search Filter -->
+<div class="relative mb-3 group">
+<span class="material-icons absolute left-3 top-2.5 text-slate-400 text-lg group-focus-within:text-primary transition-colors">search</span>
+<input class="w-full bg-gray-50 dark:bg-surface-darker/50 border border-gray-200 dark:border-slate-700 rounded-lg pl-9 pr-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary placeholder-slate-500 text-slate-800 dark:text-slate-200 transition-all" placeholder="Ders ara..." type="text"/>
+</div>
+<!-- Active Item -->
+<div class="group flex items-center p-3 rounded-lg bg-primary/10 border border-primary/50 cursor-pointer shadow-sm relative">
+<div class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 h-8 w-8 bg-white dark:bg-surface-dark rotate-45 border-t border-r border-primary/50 z-10 hidden md:block"></div>
+<span class="material-icons text-slate-400 drag-handle mr-2 text-lg hover:text-slate-600 dark:hover:text-slate-200">drag_indicator</span>
+<div class="h-8 w-8 rounded bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-xs font-bold mr-3 shrink-0" data-alt="Math icon gradient">MAT</div>
+<div class="flex-1 min-w-0">
+<h3 class="font-medium text-slate-900 dark:text-white truncate">Matematik</h3>
+<p class="text-xs text-slate-500 truncate">12. Sınıf • Sayısal</p>
+</div>
+<div class="flex items-center opacity-100 gap-1 ml-2">
+<button class="p-1.5 rounded-md hover:bg-primary/20 text-primary transition-colors"><span class="material-icons text-base">edit</span></button>
+</div>
+</div>
+<!-- Inactive Item -->
+<div class="group flex items-center p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-800/50 border border-transparent hover:border-gray-200 dark:hover:border-slate-700 cursor-pointer transition-all">
+<span class="material-icons text-slate-400/50 group-hover:text-slate-400 drag-handle mr-2 text-lg">drag_indicator</span>
+<div class="h-8 w-8 rounded bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white text-xs font-bold mr-3 shrink-0" data-alt="Physics icon gradient">FIZ</div>
+<div class="flex-1 min-w-0">
+<h3 class="font-medium text-slate-700 dark:text-slate-300 truncate group-hover:text-slate-900 dark:group-hover:text-white">Fizik</h3>
+<p class="text-xs text-slate-500 truncate">11. Sınıf • Sayısal</p>
+</div>
+<div class="flex items-center opacity-0 group-hover:opacity-100 gap-1 ml-2 transition-opacity">
+<button class="p-1.5 rounded-md hover:bg-gray-200 dark:hover:bg-slate-700 text-slate-500 hover:text-primary transition-colors"><span class="material-icons text-base">edit</span></button>
+<button class="p-1.5 rounded-md hover:bg-red-500/10 text-slate-500 hover:text-red-500 transition-colors"><span class="material-icons text-base">delete</span></button>
+</div>
+</div>
+<!-- Inactive Item -->
+<div class="group flex items-center p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-800/50 border border-transparent hover:border-gray-200 dark:hover:border-slate-700 cursor-pointer transition-all">
+<span class="material-icons text-slate-400/50 group-hover:text-slate-400 drag-handle mr-2 text-lg">drag_indicator</span>
+<div class="h-8 w-8 rounded bg-gradient-to-br from-orange-500 to-amber-600 flex items-center justify-center text-white text-xs font-bold mr-3 shrink-0" data-alt="Chemistry icon gradient">KIM</div>
+<div class="flex-1 min-w-0">
+<h3 class="font-medium text-slate-700 dark:text-slate-300 truncate group-hover:text-slate-900 dark:group-hover:text-white">Kimya</h3>
+<p class="text-xs text-slate-500 truncate">10. Sınıf • Sayısal</p>
+</div>
+<div class="flex items-center opacity-0 group-hover:opacity-100 gap-1 ml-2 transition-opacity">
+<button class="p-1.5 rounded-md hover:bg-gray-200 dark:hover:bg-slate-700 text-slate-500 hover:text-primary transition-colors"><span class="material-icons text-base">edit</span></button>
+<button class="p-1.5 rounded-md hover:bg-red-500/10 text-slate-500 hover:text-red-500 transition-colors"><span class="material-icons text-base">delete</span></button>
+</div>
+</div>
+<!-- Inactive Item -->
+<div class="group flex items-center p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-800/50 border border-transparent hover:border-gray-200 dark:hover:border-slate-700 cursor-pointer transition-all">
+<span class="material-icons text-slate-400/50 group-hover:text-slate-400 drag-handle mr-2 text-lg">drag_indicator</span>
+<div class="h-8 w-8 rounded bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center text-white text-xs font-bold mr-3 shrink-0" data-alt="Literature icon gradient">EDB</div>
+<div class="flex-1 min-w-0">
+<h3 class="font-medium text-slate-700 dark:text-slate-300 truncate group-hover:text-slate-900 dark:group-hover:text-white">Edebiyat</h3>
+<p class="text-xs text-slate-500 truncate">12. Sınıf • Eşit Ağırlık</p>
+</div>
+<div class="flex items-center opacity-0 group-hover:opacity-100 gap-1 ml-2 transition-opacity">
+<button class="p-1.5 rounded-md hover:bg-gray-200 dark:hover:bg-slate-700 text-slate-500 hover:text-primary transition-colors"><span class="material-icons text-base">edit</span></button>
+<button class="p-1.5 rounded-md hover:bg-red-500/10 text-slate-500 hover:text-red-500 transition-colors"><span class="material-icons text-base">delete</span></button>
+</div>
+</div>
+</div>
+</section>
+<!-- Column 2: ÜNİTELER (Units) -->
+<section class="flex-1 flex flex-col bg-white dark:bg-surface-dark rounded-xl border border-gray-200 dark:border-border-dark shadow-xl shadow-black/5 overflow-hidden min-w-[300px]">
+<!-- Column Header -->
+<div class="p-4 border-b border-gray-100 dark:border-border-dark bg-gray-50 dark:bg-surface-darker/50 flex items-center justify-between shrink-0">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="material-icons text-primary/80 text-xl">folder_open</span>
+<h2 class="font-semibold text-lg">Üniteler</h2>
+</div>
+<span class="text-xs text-slate-500 font-medium ml-7">Seçili: Matematik</span>
+</div>
+<button class="h-8 w-8 flex items-center justify-center rounded-lg hover:bg-gray-200 dark:hover:bg-slate-700 text-primary transition-colors" title="Yeni Ünite Ekle">
+<span class="material-icons">add</span>
+</button>
+</div>
+<!-- List -->
+<div class="flex-1 overflow-y-auto custom-scrollbar p-3 space-y-2">
+<!-- Active Item -->
+<div class="group flex items-center p-3 rounded-lg bg-primary/10 border border-primary/50 cursor-pointer shadow-sm relative">
+<div class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 h-8 w-8 bg-white dark:bg-surface-dark rotate-45 border-t border-r border-primary/50 z-10 hidden md:block"></div>
+<span class="material-icons text-slate-400 drag-handle mr-2 text-lg hover:text-slate-600 dark:hover:text-slate-200">drag_indicator</span>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2 mb-0.5">
+<span class="bg-primary/20 text-primary text-[10px] font-bold px-1.5 py-0.5 rounded">Ünite 1</span>
+</div>
+<h3 class="font-medium text-slate-900 dark:text-white truncate">Fonksiyonlar</h3>
+<div class="w-full bg-gray-200 dark:bg-slate-700 h-1 mt-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 80%"></div>
+</div>
+<p class="text-[10px] text-slate-500 mt-1 text-right">8/10 Konu Tamamlandı</p>
+</div>
+<div class="flex items-center opacity-100 gap-1 ml-2">
+<button class="p-1.5 rounded-md hover:bg-primary/20 text-primary transition-colors"><span class="material-icons text-base">edit</span></button>
+</div>
+</div>
+<!-- Inactive Item -->
+<div class="group flex items-center p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-800/50 border border-transparent hover:border-gray-200 dark:hover:border-slate-700 cursor-pointer transition-all">
+<span class="material-icons text-slate-400/50 group-hover:text-slate-400 drag-handle mr-2 text-lg">drag_indicator</span>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2 mb-0.5">
+<span class="bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-400 text-[10px] font-bold px-1.5 py-0.5 rounded">Ünite 2</span>
+</div>
+<h3 class="font-medium text-slate-700 dark:text-slate-300 truncate group-hover:text-slate-900 dark:group-hover:text-white">Limit ve Süreklilik</h3>
+<div class="w-full bg-gray-200 dark:bg-slate-700 h-1 mt-2 rounded-full overflow-hidden">
+<div class="bg-amber-500 h-full rounded-full" style="width: 45%"></div>
+</div>
+<p class="text-[10px] text-slate-500 mt-1 text-right">3/7 Konu Tamamlandı</p>
+</div>
+<div class="flex items-center opacity-0 group-hover:opacity-100 gap-1 ml-2 transition-opacity">
+<button class="p-1.5 rounded-md hover:bg-gray-200 dark:hover:bg-slate-700 text-slate-500 hover:text-primary transition-colors"><span class="material-icons text-base">edit</span></button>
+<button class="p-1.5 rounded-md hover:bg-red-500/10 text-slate-500 hover:text-red-500 transition-colors"><span class="material-icons text-base">delete</span></button>
+</div>
+</div>
+<!-- Inactive Item -->
+<div class="group flex items-center p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-800/50 border border-transparent hover:border-gray-200 dark:hover:border-slate-700 cursor-pointer transition-all">
+<span class="material-icons text-slate-400/50 group-hover:text-slate-400 drag-handle mr-2 text-lg">drag_indicator</span>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2 mb-0.5">
+<span class="bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-400 text-[10px] font-bold px-1.5 py-0.5 rounded">Ünite 3</span>
+</div>
+<h3 class="font-medium text-slate-700 dark:text-slate-300 truncate group-hover:text-slate-900 dark:group-hover:text-white">Türev</h3>
+<div class="w-full bg-gray-200 dark:bg-slate-700 h-1 mt-2 rounded-full overflow-hidden">
+<div class="bg-slate-500 h-full rounded-full" style="width: 0%"></div>
+</div>
+<p class="text-[10px] text-slate-500 mt-1 text-right">Başlanmadı</p>
+</div>
+<div class="flex items-center opacity-0 group-hover:opacity-100 gap-1 ml-2 transition-opacity">
+<button class="p-1.5 rounded-md hover:bg-gray-200 dark:hover:bg-slate-700 text-slate-500 hover:text-primary transition-colors"><span class="material-icons text-base">edit</span></button>
+<button class="p-1.5 rounded-md hover:bg-red-500/10 text-slate-500 hover:text-red-500 transition-colors"><span class="material-icons text-base">delete</span></button>
+</div>
+</div>
+<!-- Inactive Item -->
+<div class="group flex items-center p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-800/50 border border-transparent hover:border-gray-200 dark:hover:border-slate-700 cursor-pointer transition-all opacity-60">
+<span class="material-icons text-slate-400/50 group-hover:text-slate-400 drag-handle mr-2 text-lg">drag_indicator</span>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2 mb-0.5">
+<span class="bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-400 text-[10px] font-bold px-1.5 py-0.5 rounded">Ünite 4</span>
+</div>
+<h3 class="font-medium text-slate-700 dark:text-slate-300 truncate">İntegral</h3>
+<div class="w-full bg-gray-200 dark:bg-slate-700 h-1 mt-2 rounded-full overflow-hidden">
+<div class="bg-slate-500 h-full rounded-full" style="width: 0%"></div>
+</div>
+<p class="text-[10px] text-slate-500 mt-1 text-right">Başlanmadı</p>
+</div>
+<div class="flex items-center opacity-0 group-hover:opacity-100 gap-1 ml-2 transition-opacity">
+<button class="p-1.5 rounded-md hover:bg-gray-200 dark:hover:bg-slate-700 text-slate-500 hover:text-primary transition-colors"><span class="material-icons text-base">edit</span></button>
+<button class="p-1.5 rounded-md hover:bg-red-500/10 text-slate-500 hover:text-red-500 transition-colors"><span class="material-icons text-base">delete</span></button>
+</div>
+</div>
+</div>
+</section>
+<!-- Column 3: KONULAR (Topics) -->
+<section class="flex-1 flex flex-col bg-white dark:bg-surface-dark rounded-xl border border-gray-200 dark:border-border-dark shadow-xl shadow-black/5 overflow-hidden min-w-[300px]">
+<!-- Column Header -->
+<div class="p-4 border-b border-gray-100 dark:border-border-dark bg-gray-50 dark:bg-surface-darker/50 flex items-center justify-between shrink-0">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="material-icons text-primary/60 text-xl">article</span>
+<h2 class="font-semibold text-lg">Konular</h2>
+</div>
+<span class="text-xs text-slate-500 font-medium ml-7">Seçili: Fonksiyonlar</span>
+</div>
+<button class="h-8 w-8 flex items-center justify-center rounded-lg hover:bg-gray-200 dark:hover:bg-slate-700 text-primary transition-colors" title="Yeni Konu Ekle">
+<span class="material-icons">add</span>
+</button>
+</div>
+<!-- List -->
+<div class="flex-1 overflow-y-auto custom-scrollbar p-3 space-y-2">
+<!-- Topic Item -->
+<div class="group flex items-start p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-800/50 border border-transparent hover:border-gray-200 dark:hover:border-slate-700 cursor-pointer transition-all">
+<span class="material-icons text-slate-400/50 group-hover:text-slate-400 drag-handle mr-2 text-lg mt-1">drag_indicator</span>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<h3 class="font-medium text-sm text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white">Fonksiyon Kavramı ve Gösterimi</h3>
+<span class="ml-2 flex h-2 w-2 relative">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-sky-500"></span>
+</span>
+</div>
+<p class="text-xs text-slate-500 mt-1 line-clamp-2">Fonksiyonun tanımı, tanım ve görüntü kümeleri, fonksiyon grafiği çizimi.</p>
+<div class="flex items-center gap-2 mt-2">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-emerald-500/10 text-emerald-500">
+<span class="material-icons text-[10px] mr-1">videocam</span> 2 Video
+                            </span>
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-blue-500/10 text-blue-500">
+<span class="material-icons text-[10px] mr-1">quiz</span> 15 Soru
+                            </span>
+</div>
+</div>
+<div class="flex flex-col items-center opacity-0 group-hover:opacity-100 gap-1 ml-2 transition-opacity">
+<button class="p-1 rounded-md hover:bg-gray-200 dark:hover:bg-slate-700 text-slate-500 hover:text-primary transition-colors"><span class="material-icons text-sm">edit</span></button>
+<button class="p-1 rounded-md hover:bg-red-500/10 text-slate-500 hover:text-red-500 transition-colors"><span class="material-icons text-sm">delete</span></button>
+</div>
+</div>
+<!-- Topic Item -->
+<div class="group flex items-start p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-800/50 border border-transparent hover:border-gray-200 dark:hover:border-slate-700 cursor-pointer transition-all">
+<span class="material-icons text-slate-400/50 group-hover:text-slate-400 drag-handle mr-2 text-lg mt-1">drag_indicator</span>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<h3 class="font-medium text-sm text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white">Birebir ve Örten Fonksiyonlar</h3>
+</div>
+<p class="text-xs text-slate-500 mt-1 line-clamp-2">Yatay doğru testi, birebirlik ve örtenlik testleri.</p>
+<div class="flex items-center gap-2 mt-2">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-emerald-500/10 text-emerald-500">
+<span class="material-icons text-[10px] mr-1">videocam</span> 1 Video
+                            </span>
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-blue-500/10 text-blue-500">
+<span class="material-icons text-[10px] mr-1">quiz</span> 10 Soru
+                            </span>
+</div>
+</div>
+<div class="flex flex-col items-center opacity-0 group-hover:opacity-100 gap-1 ml-2 transition-opacity">
+<button class="p-1 rounded-md hover:bg-gray-200 dark:hover:bg-slate-700 text-slate-500 hover:text-primary transition-colors"><span class="material-icons text-sm">edit</span></button>
+<button class="p-1 rounded-md hover:bg-red-500/10 text-slate-500 hover:text-red-500 transition-colors"><span class="material-icons text-sm">delete</span></button>
+</div>
+</div>
+<!-- Topic Item -->
+<div class="group flex items-start p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-800/50 border border-transparent hover:border-gray-200 dark:hover:border-slate-700 cursor-pointer transition-all">
+<span class="material-icons text-slate-400/50 group-hover:text-slate-400 drag-handle mr-2 text-lg mt-1">drag_indicator</span>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<h3 class="font-medium text-sm text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white">Bileşke Fonksiyon</h3>
+</div>
+<p class="text-xs text-slate-500 mt-1 line-clamp-2">İki veya daha fazla fonksiyonun bileşkesi, fof(x) ve fog(x) kavramları.</p>
+<div class="flex items-center gap-2 mt-2">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-slate-200 dark:bg-slate-700 text-slate-500">
+<span class="material-icons text-[10px] mr-1">timer</span> 15 dk
+                            </span>
+</div>
+</div>
+<div class="flex flex-col items-center opacity-0 group-hover:opacity-100 gap-1 ml-2 transition-opacity">
+<button class="p-1 rounded-md hover:bg-gray-200 dark:hover:bg-slate-700 text-slate-500 hover:text-primary transition-colors"><span class="material-icons text-sm">edit</span></button>
+<button class="p-1 rounded-md hover:bg-red-500/10 text-slate-500 hover:text-red-500 transition-colors"><span class="material-icons text-sm">delete</span></button>
+</div>
+</div>
+<!-- Topic Item - Active/Dragging Effect Example -->
+<div class="group flex items-start p-3 rounded-lg bg-surface-dark border-2 border-dashed border-primary/40 cursor-grabbing opacity-50 relative overflow-hidden">
+<div class="absolute inset-0 bg-primary/5"></div>
+<span class="material-icons text-primary drag-handle mr-2 text-lg mt-1">drag_indicator</span>
+<div class="flex-1 min-w-0">
+<h3 class="font-medium text-sm text-primary">Ters Fonksiyon</h3>
+<p class="text-xs text-slate-500 mt-1">Bir fonksiyonun tersini bulma yöntemleri.</p>
+</div>
+</div>
+</div>
+<!-- Column Footer (Example of Empty State Button) -->
+<div class="p-3 border-t border-gray-100 dark:border-border-dark bg-gray-50 dark:bg-surface-darker/50 shrink-0">
+<button class="w-full py-2 border border-dashed border-gray-300 dark:border-slate-600 rounded-lg text-slate-500 hover:text-primary hover:border-primary hover:bg-primary/5 transition-all text-sm flex items-center justify-center gap-2">
+<span class="material-icons text-sm">add_circle_outline</span>
+                    Hızlı Konu Ekle
+                </button>
+</div>
+</section>
+</main>
+</body></html>

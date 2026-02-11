@@ -1,0 +1,83 @@
+﻿@model EduPortal.Application.DTOs.AdminDashboardDto
+@{
+    ViewData["Title"] = "Yönetici Paneli";
+}
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-icon blue"><i class="fas fa-user-graduate"></i></div>
+        <div class="stat-info">
+            <h3>@Model.TotalStudents</h3>
+            <p>Toplam Öğrenci</p>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon green"><i class="fas fa-chalkboard-teacher"></i></div>
+        <div class="stat-info">
+            <h3>@Model.TotalTeachers</h3>
+            <p>Toplam Öğretmen</p>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon purple"><i class="fas fa-school"></i></div>
+        <div class="stat-info">
+            <h3>@Model.TotalClasses</h3>
+            <p>Toplam Sınıf</p>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon orange"><i class="fas fa-clock"></i></div>
+        <div class="stat-info">
+            <h3>@Model.PendingAssignments</h3>
+            <p>Bekleyen Ödev</p>
+        </div>
+    </div>
+</div>
+
+<div class="quick-actions">
+    <button class="btn-action primary"><i class="fas fa-plus"></i> Öğretmen Ekle</button>
+    <button class="btn-action primary"><i class="fas fa-plus"></i> Öğrenci Ekle</button>
+    <button class="btn-action"><i class="fas fa-plus"></i> Sınıf Oluştur</button>
+    <button class="btn-action"><i class="fas fa-book"></i> Müfredat Yönet</button>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>Son Eklenen Öğrenciler</h3>
+        <a href="/Admin/Students" class="btn btn-ghost btn-sm">Tümünü Gör</a>
+    </div>
+    <div class="card-body">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Ad Soyad</th>
+                    <th>E-posta</th>
+                    <th>Öğrenci No</th>
+                    <th>Sınıf</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.RecentStudents.Any())
+                {
+                    @foreach (var student in Model.RecentStudents)
+                    {
+                        <tr>
+                            <td>@student.FullName</td>
+                            <td>@student.Email</td>
+                            <td><span class="badge badge-blue">@student.StudentNumber</span></td>
+                            <td>@(student.ClassName ?? "Atanmadı")</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="4" style="text-align: center; padding: 40px; color: var(--text-muted);">
+                            Henüz öğrenci eklenmemiş.
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

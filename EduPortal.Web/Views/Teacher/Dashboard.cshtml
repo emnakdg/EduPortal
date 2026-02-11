@@ -1,0 +1,121 @@
+﻿@using EduPortal.Domain.Enums
+@model EduPortal.Application.DTOs.TeacherDashboardDto
+@{
+    ViewData["Title"] = "Öğretmen Paneli";
+}
+
+<div class="stat-cards">
+    <div class="stat-card blue">
+        <div class="stat-icon"><i class="fas fa-school"></i></div>
+        <div class="stat-info">
+            <span class="stat-value">@Model.TotalClasses</span>
+            <span class="stat-label">Toplam Sınıf</span>
+        </div>
+    </div>
+    <div class="stat-card green">
+        <div class="stat-icon"><i class="fas fa-user-graduate"></i></div>
+        <div class="stat-info">
+            <span class="stat-value">@Model.TotalStudents</span>
+            <span class="stat-label">Toplam Öğrenci</span>
+        </div>
+    </div>
+    <div class="stat-card purple">
+        <div class="stat-icon"><i class="fas fa-tasks"></i></div>
+        <div class="stat-info">
+            <span class="stat-value">@Model.ActiveAssignmentCount</span>
+            <span class="stat-label">Aktif Ödev</span>
+        </div>
+    </div>
+    <div class="stat-card orange">
+        <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
+        <div class="stat-info">
+            <span class="stat-value">%@Model.OverallSuccessRate</span>
+            <span class="stat-label">Başarı Oranı</span>
+        </div>
+    </div>
+</div>
+
+<div style="display:flex; gap:16px; margin-top:20px;">
+    <a asp-action="CreateAssignment" class="btn-action primary">
+        <i class="fas fa-plus"></i> Yeni Ödev Oluştur
+    </a>
+</div>
+
+<div class="card" style="margin-top: 24px;">
+    <div class="card-header">
+        <h3>Sorumlu Olduğum Sınıflar</h3>
+    </div>
+    <div class="card-body">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Sınıf</th>
+                    <th>Dönem</th>
+                    <th>Derslik</th>
+                    <th>Öğrenci Sayısı</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var c in Model.Classes)
+                {
+                    <tr>
+                        <td><strong>@c.Name</strong></td>
+                        <td>@c.Semester</td>
+                        <td>@(c.Room ?? "-")</td>
+                        <td><span class="badge badge-blue">@c.StudentCount</span></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@if (Model.RecentAssignments.Any())
+{
+    <div class="card" style="margin-top: 24px;">
+        <div class="card-header">
+            <h3>Son Ödevler</h3>
+            <a asp-action="Assignments" style="color:var(--primary); font-size:0.9rem;">Tümünü Gör →</a>
+        </div>
+        <div class="card-body">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Ödev</th>
+                        <th>Ders</th>
+                        <th>Konu</th>
+                        <th>Soru</th>
+                        <th>Son Tarih</th>
+                        <th>Öncelik</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var a in Model.RecentAssignments)
+                    {
+                        <tr>
+                            <td><strong>@a.Title</strong></td>
+                            <td><span class="badge badge-blue">@a.SubjectName</span></td>
+                            <td>@a.TopicName</td>
+                            <td>@a.QuestionCount</td>
+                            <td>@a.DueDate.ToString("dd.MM.yyyy")</td>
+                            <td>
+                                @if (a.Priority == AssignmentPriority.High)
+                                {
+                                    <span class="badge badge-red">Yüksek</span>
+                                }
+                                else if (a.Priority == AssignmentPriority.Medium)
+                                {
+                                    <span class="badge badge-orange">Orta</span>
+                                }
+                                else
+                                {
+                                    <span class="badge badge-green">Düşük</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}

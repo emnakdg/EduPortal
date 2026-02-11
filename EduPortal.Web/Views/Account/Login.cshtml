@@ -1,0 +1,76 @@
+﻿@model EduPortal.Web.ViewModels.Account.LoginViewModel
+@{
+    ViewData["Title"] = "Giriş Yap";
+    Layout = "_AuthLayout";
+}
+
+<div class="auth-container">
+    <div class="auth-hero">
+        <div class="auth-hero-content">
+            <div class="auth-hero-icon">🎓</div>
+            <h1>Eğitimde<br><span>Dijital Devrim</span></h1>
+            <p>Öğrenci ve öğretmenler için tasarlanmış, geleceğin eğitim yönetim sistemi ile tanışın. Verimliliği artırın, başarıyı yakalayın.</p>
+        </div>
+    </div>
+
+    <div class="auth-form-section">
+        <div class="auth-form-container">
+            <div class="auth-logo">
+                <div class="auth-logo-icon">🎓</div>
+                EduPortal
+            </div>
+
+            <h2>Hoş Geldiniz</h2>
+            <p class="subtitle">Devam etmek için lütfen hesabınıza giriş yapın.</p>
+
+            <form method="post">
+                <div asp-validation-summary="ModelOnly"></div>
+
+                <div class="form-group">
+                    <label asp-for="@Model.Email">E-posta Adresi</label>
+                    <div class="form-input-wrapper">
+                        <i class="fas fa-envelope input-icon"></i>
+                        <input asp-for="@Model.Email" class="form-input" placeholder="ornek@okul.com" />
+                    </div>
+                    <span asp-validation-for="@Model.Email"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="@Model.Password">Şifre</label>
+                    <div class="form-input-wrapper">
+                        <i class="fas fa-lock input-icon"></i>
+                        <input asp-for="@Model.Password" class="form-input" placeholder="••••••••" />
+                    </div>
+                    <span asp-validation-for="@Model.Password"></span>
+                </div>
+
+                <div class="form-row">
+                    <div class="checkbox-wrapper">
+                        <input asp-for="@Model.RememberMe" type="checkbox" />
+                        <label asp-for="@Model.RememberMe">Beni hatırla</label>
+                    </div>
+                    <a href="/Account/ForgotPassword" class="forgot-link">Şifremi Unuttum?</a>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-sign-in-alt"></i> Giriş Yap
+                </button>
+
+                <div class="divider">veya şununla devam et</div>
+
+                <div class="social-buttons">
+                    <button type="button" class="btn btn-outline">
+                        <i class="fab fa-google"></i> Google
+                    </button>
+                    <button type="button" class="btn btn-outline">
+                        <i class="fab fa-microsoft"></i> Microsoft
+                    </button>
+                </div>
+
+                <p class="auth-footer">
+                    Hesabınız yok mu? <a href="/Account/Register">Kayıt Olun</a>
+                </p>
+            </form>
+        </div>
+    </div>
+</div>

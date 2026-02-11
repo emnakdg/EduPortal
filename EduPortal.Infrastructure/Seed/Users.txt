@@ -1,0 +1,3 @@
+﻿admin@eduportal.com = Admin123!
+Teacher123!
+Student123!

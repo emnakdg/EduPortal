@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Ödev Sonuç Ekranı - EduPortal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3c83f6",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101722",
+                        "surface-dark": "#1A2433", // Slightly lighter than background-dark for cards
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom Radial Progress using Conic Gradient */
+        .radial-progress {
+            background: conic-gradient(#3c83f6 var(--progress), #334155 0deg);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-900 dark:text-gray-100 min-h-screen flex flex-col">
+<!-- Navigation Bar -->
+<nav class="sticky top-0 z-50 w-full border-b border-gray-200 dark:border-gray-800 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md">
+<div class="px-6 h-16 flex items-center justify-between max-w-7xl mx-auto">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
+<span class="material-icons text-white text-sm">school</span>
+</div>
+<span class="font-bold text-lg tracking-tight">EduPortal</span>
+</div>
+<div class="flex items-center gap-6">
+<a class="text-sm font-medium text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-white transition-colors" href="#">Derslerim</a>
+<a class="text-sm font-medium text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-white transition-colors" href="#">Ödevler</a>
+<a class="text-sm font-medium text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-white transition-colors" href="#">Takvim</a>
+<div class="h-8 w-8 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden border border-gray-300 dark:border-gray-600">
+<img alt="Student Profile Avatar" class="w-full h-full object-cover" data-alt="Student Profile Avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDeJx_Y6iZETmw8OrzhBFj_2hie-2VNjLgfyFXDl09nakXGOvMQUlB6L58mS92NOTMgWoxero4TlS-jfqLjzSDh52RexWhE7Dq1SRXRCfMqUQxgeUfQGYhDXyrJfunXbJEjgU5otvyLmvcYgDZdbPeugpUAwBuwA_1LfSdhb3I76LFUYQBi_Pf636qnqAtUPvPdRZeuP7GEdMbrGi9vzspEfX0Ogk4gDljbWiHcMB6QrGwUvWutASL8otI6sjqJ3pr3-tMQPDLtJ84c"/>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-grow container mx-auto px-4 py-8 max-w-6xl">
+<!-- Hero Status Section -->
+<div class="text-center mb-10">
+<div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-green-500/20 mb-4 animate-bounce-slow">
+<span class="material-icons text-5xl text-[#10B981]">check_circle</span>
+</div>
+<h1 class="text-3xl md:text-4xl font-bold mb-2 text-gray-900 dark:text-white">Harika İş! Ödev Tamamlandı</h1>
+<p class="text-gray-500 dark:text-gray-400 text-lg">Matematik: Türev ve İntegral Giriş</p>
+<div class="mt-4 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/10 border border-green-500/20 text-green-500 text-sm font-medium">
+<span class="material-icons text-base">schedule</span>
+                Tamamlanma: 14 Ekim, 15:30
+            </div>
+</div>
+<!-- Dashboard Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- Left Column: Scores & Stats (8 cols) -->
+<div class="lg:col-span-8 flex flex-col gap-6">
+<!-- Primary Score Card -->
+<div class="bg-white dark:bg-surface-dark rounded-xl border border-gray-200 dark:border-gray-800 p-6 shadow-sm flex flex-col md:flex-row items-center justify-between gap-8">
+<!-- Circular Score -->
+<div class="flex flex-col items-center justify-center">
+<div class="relative w-40 h-40 rounded-full radial-progress flex items-center justify-center shadow-lg shadow-primary/10" style="--progress: 85%;">
+<!-- Inner Circle for creating the ring effect -->
+<div class="absolute inset-2 bg-white dark:bg-surface-dark rounded-full flex flex-col items-center justify-center">
+<span class="text-4xl font-bold text-gray-900 dark:text-white">85</span>
+<span class="text-sm text-gray-500 dark:text-gray-400 font-medium">/ 100 Puan</span>
+</div>
+</div>
+<span class="mt-4 text-sm font-semibold text-primary uppercase tracking-wide">Genel Başarı</span>
+</div>
+<!-- Key Metrics -->
+<div class="grid grid-cols-2 gap-4 w-full md:w-auto flex-1">
+<div class="bg-gray-50 dark:bg-background-dark/50 p-4 rounded-lg border border-gray-100 dark:border-gray-700/50">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-icons text-green-500 text-xl">check_circle</span>
+<span class="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase">Doğru</span>
+</div>
+<p class="text-2xl font-bold text-gray-900 dark:text-white">17</p>
+</div>
+<div class="bg-gray-50 dark:bg-background-dark/50 p-4 rounded-lg border border-gray-100 dark:border-gray-700/50">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-icons text-red-500 text-xl">cancel</span>
+<span class="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase">Yanlış</span>
+</div>
+<p class="text-2xl font-bold text-gray-900 dark:text-white">3</p>
+</div>
+<div class="bg-gray-50 dark:bg-background-dark/50 p-4 rounded-lg border border-gray-100 dark:border-gray-700/50">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-icons text-blue-500 text-xl">timer</span>
+<span class="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase">Süre</span>
+</div>
+<p class="text-2xl font-bold text-gray-900 dark:text-white">45dk</p>
+</div>
+<div class="bg-gray-50 dark:bg-background-dark/50 p-4 rounded-lg border border-gray-100 dark:border-gray-700/50">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-icons text-purple-500 text-xl">leaderboard</span>
+<span class="text-xs text-gray-500 dark:text-gray-400 font-medium uppercase">Sıralama</span>
+</div>
+<p class="text-2xl font-bold text-gray-900 dark:text-white">%12</p>
+</div>
+</div>
+</div>
+<!-- Topic Breakdown -->
+<div class="bg-white dark:bg-surface-dark rounded-xl border border-gray-200 dark:border-gray-800 p-6 shadow-sm">
+<h3 class="text-lg font-bold mb-6 flex items-center gap-2">
+<span class="material-icons text-primary">bar_chart</span>
+                        Konu Bazlı Analiz
+                    </h3>
+<div class="space-y-5">
+<!-- Topic Item -->
+<div>
+<div class="flex justify-between mb-1">
+<span class="text-sm font-medium text-gray-700 dark:text-gray-300">Türev Alma Kuralları</span>
+<span class="text-sm font-bold text-gray-900 dark:text-white">90%</span>
+</div>
+<div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+<div class="bg-primary h-2.5 rounded-full" style="width: 90%"></div>
+</div>
+</div>
+<!-- Topic Item -->
+<div>
+<div class="flex justify-between mb-1">
+<span class="text-sm font-medium text-gray-700 dark:text-gray-300">Zincir Kuralı</span>
+<span class="text-sm font-bold text-gray-900 dark:text-white">65%</span>
+</div>
+<div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+<div class="bg-yellow-500 h-2.5 rounded-full" style="width: 65%"></div>
+</div>
+</div>
+<!-- Topic Item -->
+<div>
+<div class="flex justify-between mb-1">
+<span class="text-sm font-medium text-gray-700 dark:text-gray-300">İntegral Temelleri</span>
+<span class="text-sm font-bold text-[#10B981]">100%</span>
+</div>
+<div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+<div class="bg-[#10B981] h-2.5 rounded-full" style="width: 100%"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Feedback & Self-Assessment (4 cols) -->
+<div class="lg:col-span-4 flex flex-col gap-6">
+<!-- Teacher Feedback -->
+<div class="bg-gradient-to-br from-[#1e293b] to-surface-dark rounded-xl border border-gray-200 dark:border-gray-800 p-6 shadow-sm relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-5">
+<span class="material-icons text-8xl">format_quote</span>
+</div>
+<h3 class="text-lg font-bold mb-4 flex items-center gap-2 text-white">
+<span class="material-icons text-primary">chat</span>
+                        Öğretmen Geri Bildirimi
+                    </h3>
+<div class="flex items-center gap-3 mb-4">
+<img alt="Teacher Avatar" class="w-10 h-10 rounded-full border-2 border-primary" data-alt="Teacher Avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8g5xemkcWASRKAKDsnFTI76wwphgIowD7NUvzn9xM2sqc8oEooVphNev57jf1uO_MQH-1DzsNq40IWSfAPo2wKj8TcWlCI4yQTHED1vdV_fJqNLxlBRRODnxn0CtRs6eikK3qKLReRSEPbgkoUiEABFzYM5LwftIUiMX85abP3O2dOueOPmMyy1nBWapA8CLmBxpzlgGCWt5ywox_1skRoS_Xbklk-AnJ-eskg04TMKEk8LqnKsJVdQYb7gSOV2DuR7R3Hg54nSYW"/>
+<div>
+<p class="text-sm font-bold text-white">Mehmet Yılmaz</p>
+<p class="text-xs text-gray-400">Matematik Öğretmeni</p>
+</div>
+</div>
+<p class="text-sm text-gray-300 leading-relaxed italic relative z-10 bg-black/20 p-3 rounded-lg border border-white/5">
+                        "Harika bir iş çıkardın Ahmet! Özellikle integral sorularındaki mantıksal yaklaşımın çok doğruydu. Türev alma kurallarını, özellikle zincir kuralını biraz daha tekrar etmeni öneririm. Başarılarının devamını dilerim!"
+                    </p>
+</div>
+<!-- Self Assessment -->
+<div class="bg-white dark:bg-surface-dark rounded-xl border border-gray-200 dark:border-gray-800 p-6 shadow-sm">
+<h3 class="text-lg font-bold mb-2 flex items-center gap-2">
+<span class="material-icons text-primary">star</span>
+                        Kendi Değerlendirmen
+                    </h3>
+<p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Bu ödevdeki performansını nasıl buldun?</p>
+<div class="flex items-center justify-between gap-1 group">
+<button class="text-gray-300 hover:text-yellow-400 focus:text-yellow-400 dark:text-gray-600 dark:hover:text-yellow-500 transition-colors">
+<span class="material-icons text-3xl">star</span>
+</button>
+<button class="text-gray-300 hover:text-yellow-400 focus:text-yellow-400 dark:text-gray-600 dark:hover:text-yellow-500 transition-colors">
+<span class="material-icons text-3xl">star</span>
+</button>
+<button class="text-gray-300 hover:text-yellow-400 focus:text-yellow-400 dark:text-gray-600 dark:hover:text-yellow-500 transition-colors">
+<span class="material-icons text-3xl">star</span>
+</button>
+<button class="text-gray-300 hover:text-yellow-400 focus:text-yellow-400 dark:text-gray-600 dark:hover:text-yellow-500 transition-colors">
+<span class="material-icons text-3xl">star</span>
+</button>
+<button class="text-gray-300 hover:text-yellow-400 focus:text-yellow-400 dark:text-gray-600 dark:hover:text-yellow-500 transition-colors">
+<span class="material-icons text-3xl">star</span>
+</button>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="grid grid-cols-1 gap-3">
+<button class="w-full bg-primary hover:bg-blue-600 text-white font-semibold py-3 px-4 rounded-lg shadow-lg shadow-primary/20 transition-all transform hover:scale-[1.02] flex items-center justify-center gap-2">
+<span class="material-icons text-sm">visibility</span>
+                        Cevapları İncele
+                    </button>
+<button class="w-full bg-transparent border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2">
+<span class="material-icons text-sm">arrow_back</span>
+                        Panele Dön
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="mt-8 border-t border-gray-200 dark:border-gray-800 py-6">
+<div class="container mx-auto px-4 text-center">
+<p class="text-sm text-gray-500 dark:text-gray-500">© 2023 EduPortal. Tüm hakları saklıdır.</p>
+</div>
+</footer>
+</body></html>

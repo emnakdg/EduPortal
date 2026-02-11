@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Öğrenci Paneli - EduPortal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3c83f6",
+                        "primary-hover": "#2563eb",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101722",
+                        "surface-dark": "#1e293b",
+                        "surface-dark-light": "#334155",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom scrollbar for dark mode */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #101722; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569; 
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-gray-800 dark:text-white font-display min-h-screen overflow-hidden flex">
+<!-- Sidebar -->
+<aside class="w-64 hidden md:flex flex-col bg-white dark:bg-surface-dark border-r border-gray-200 dark:border-gray-800 h-screen fixed left-0 top-0 z-20">
+<div class="p-6 flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-blue-400 flex items-center justify-center text-white font-bold">E</div>
+<h1 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">EduPortal</h1>
+</div>
+<nav class="flex-1 px-4 space-y-2 mt-4">
+<a class="flex items-center gap-3 px-4 py-3 bg-primary/10 text-primary rounded-xl transition-all" href="#">
+<span class="material-icons text-[20px]">dashboard</span>
+<span class="font-medium">Panelim</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-surface-dark-light rounded-xl transition-all group" href="#">
+<span class="material-icons text-[20px] group-hover:text-primary transition-colors">library_books</span>
+<span class="font-medium group-hover:text-gray-900 dark:group-hover:text-white transition-colors">Derslerim</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-surface-dark-light rounded-xl transition-all group" href="#">
+<span class="material-icons text-[20px] group-hover:text-primary transition-colors">assignment</span>
+<span class="font-medium group-hover:text-gray-900 dark:group-hover:text-white transition-colors">Ödevler</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-surface-dark-light rounded-xl transition-all group" href="#">
+<span class="material-icons text-[20px] group-hover:text-primary transition-colors">emoji_events</span>
+<span class="font-medium group-hover:text-gray-900 dark:group-hover:text-white transition-colors">Başarılar</span>
+</a>
+</nav>
+<div class="p-4 border-t border-gray-200 dark:border-gray-800">
+<a class="flex items-center gap-3 px-4 py-3 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-surface-dark-light rounded-xl transition-all group mb-2" href="#">
+<span class="material-icons text-[20px] group-hover:text-primary transition-colors">settings</span>
+<span class="font-medium group-hover:text-gray-900 dark:group-hover:text-white transition-colors">Ayarlar</span>
+</a>
+<div class="flex items-center gap-3 px-4 py-3 mt-auto cursor-pointer">
+<img alt="Profile" class="w-10 h-10 rounded-full object-cover ring-2 ring-primary/20" data-alt="User profile avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVNnMm5lRBPQrVPL1GJEYN6MG_o-nZkd9bvahwWUpzTtw49cxbrtEpw7dcH1Ty4g96e6nWQezt6EX3IQUKxx-8IfZWCBaf5oduIwRmgB7vLmsGUdAEDUo3gJFYGI5O-YIvnzDF15Kp684bWPY7FNKJKDuUvHApSZ0eqbWunzMSL2wXvmn2vAFgNRMxqidIbyJY1ICQsn5xMm_PPVXuV8p0UKWwocSNxfSRfN8hENZ3uh5f0-tWD4RhMVpIX7--Y-TqOYz8PXW8_k9Y"/>
+<div class="flex flex-col">
+<span class="text-sm font-semibold text-gray-900 dark:text-white">Ahmet Yılmaz</span>
+<span class="text-xs text-gray-500 dark:text-gray-400">Öğrenci</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 md:ml-64 h-screen overflow-y-auto bg-background-light dark:bg-background-dark">
+<!-- Header -->
+<header class="sticky top-0 z-10 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md px-8 py-5 flex justify-between items-center border-b border-gray-200 dark:border-gray-800/50">
+<div>
+<h2 class="text-2xl font-bold text-gray-900 dark:text-white">Hoşgeldin, Ahmet! 👋</h2>
+<p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Bugün öğrenmek için harika bir gün.</p>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+<span class="material-icons absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-[20px]">search</span>
+<input class="bg-white dark:bg-surface-dark border-none rounded-lg py-2 pl-10 pr-4 text-sm w-64 focus:ring-2 focus:ring-primary text-gray-900 dark:text-white placeholder-gray-400 shadow-sm" placeholder="Ders veya ödev ara..." type="text"/>
+</div>
+<button class="relative p-2 rounded-lg bg-white dark:bg-surface-dark text-gray-500 dark:text-gray-400 hover:text-primary transition-colors shadow-sm">
+<span class="material-icons text-[20px]">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-surface-dark"></span>
+</button>
+</div>
+</header>
+<div class="p-8 space-y-8 max-w-7xl mx-auto">
+<!-- Stats Row -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Stat Card 1 -->
+<div class="bg-white dark:bg-surface-dark p-6 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm relative overflow-hidden group">
+<div class="absolute right-0 top-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+<span class="material-icons text-8xl text-primary">pending_actions</span>
+</div>
+<div class="flex items-center gap-4 relative z-10">
+<div class="p-3 bg-yellow-500/10 rounded-lg">
+<span class="material-icons text-yellow-500 text-2xl">hourglass_empty</span>
+</div>
+<div>
+<p class="text-sm font-medium text-gray-500 dark:text-gray-400">Bekleyen Ödevler</p>
+<h3 class="text-3xl font-bold text-gray-900 dark:text-white mt-1">4</h3>
+</div>
+</div>
+<div class="mt-4 flex items-center text-xs text-yellow-600 dark:text-yellow-400">
+<span class="font-medium">2 tanesi yarın son!</span>
+</div>
+</div>
+<!-- Stat Card 2 -->
+<div class="bg-white dark:bg-surface-dark p-6 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm relative overflow-hidden group">
+<div class="absolute right-0 top-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+<span class="material-icons text-8xl text-green-500">check_circle</span>
+</div>
+<div class="flex items-center gap-4 relative z-10">
+<div class="p-3 bg-green-500/10 rounded-lg">
+<span class="material-icons text-green-500 text-2xl">task_alt</span>
+</div>
+<div>
+<p class="text-sm font-medium text-gray-500 dark:text-gray-400">Tamamlanan</p>
+<h3 class="text-3xl font-bold text-gray-900 dark:text-white mt-1">12</h3>
+</div>
+</div>
+<div class="mt-4 flex items-center text-xs text-green-600 dark:text-green-400">
+<span class="font-medium">Bu hafta %20 artış</span>
+</div>
+</div>
+<!-- Stat Card 3 -->
+<div class="bg-gradient-to-br from-orange-500 to-red-500 p-6 rounded-xl border border-orange-600 shadow-lg text-white relative overflow-hidden">
+<div class="absolute -right-6 -top-6 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
+<div class="flex items-center gap-4 relative z-10">
+<div class="p-3 bg-white/20 backdrop-blur-sm rounded-lg">
+<span class="material-icons text-white text-2xl">local_fire_department</span>
+</div>
+<div>
+<p class="text-sm font-medium text-orange-100">Çalışma Serisi</p>
+<h3 class="text-3xl font-bold mt-1">15 Gün 🔥</h3>
+</div>
+</div>
+<div class="mt-4 flex items-center text-xs text-orange-100">
+<span class="font-medium opacity-90">Harika gidiyorsun, seriyi bozma!</span>
+</div>
+</div>
+</div>
+<!-- Active Assignments Grid -->
+<div>
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+<span class="material-icons text-primary text-xl">edit_note</span>
+                        Aktif Ödevler
+                    </h3>
+<a class="text-sm font-medium text-primary hover:text-primary-hover" href="#">Tümünü Gör</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Assignment Card 1 -->
+<div class="bg-white dark:bg-surface-dark rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm hover:shadow-md transition-shadow flex flex-col h-full">
+<div class="h-32 w-full relative bg-gray-200 dark:bg-gray-800 rounded-t-xl overflow-hidden">
+<img class="w-full h-full object-cover opacity-80" data-alt="Abstract math shapes background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDH1sR0uSCJezElYEi1GrstNRVBjVgiZumTGX-8uLTl6SOpFnN0-xxGy621DxYxFaxF4kPYa6cQ468VyDCXqkq0YgEYFlqiViFDY_AHXkCXI13hAKTaJc5lbyTDug0HmXHVo-JX04glpuADLjRtEUL4qCOmP2Q8bjfLShpkI-ybUWE1Z8yDU5HxmDFfxab19T226lGSnIWu27Re4xRksznf4e6bVaQVpZ-MAxAK5Uia31bwKg2_2YyyBYDxOqcHuGOde6MewDsF42Vu"/>
+<div class="absolute top-3 left-3 bg-white/90 dark:bg-black/80 backdrop-blur text-xs font-bold px-2 py-1 rounded text-gray-800 dark:text-gray-200">
+                                Matematik 101
+                            </div>
+</div>
+<div class="p-5 flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-bold text-lg text-gray-900 dark:text-white line-clamp-1">Türev Çalışması</h4>
+<span class="bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 text-xs px-2 py-1 rounded font-medium whitespace-nowrap">Yarın Son</span>
+</div>
+<p class="text-sm text-gray-500 dark:text-gray-400 mb-4 line-clamp-2">Bölüm 4 ve 5'teki alıştırmaları tamamlayın ve sisteme yükleyin.</p>
+<div class="mt-auto">
+<div class="flex justify-between text-xs mb-1">
+<span class="text-gray-500 dark:text-gray-400">İlerleme</span>
+<span class="font-bold text-primary">40%</span>
+</div>
+<div class="w-full bg-gray-100 dark:bg-gray-700 rounded-full h-2 mb-4">
+<div class="bg-primary h-2 rounded-full" style="width: 40%"></div>
+</div>
+<button class="w-full py-2 bg-primary hover:bg-primary-hover text-white rounded-lg text-sm font-medium transition-colors">
+                                    Ödevi Yap
+                                </button>
+</div>
+</div>
+</div>
+<!-- Assignment Card 2 -->
+<div class="bg-white dark:bg-surface-dark rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm hover:shadow-md transition-shadow flex flex-col h-full">
+<div class="h-32 w-full relative bg-gray-200 dark:bg-gray-800 rounded-t-xl overflow-hidden">
+<img class="w-full h-full object-cover opacity-80" data-alt="Science laboratory equipment close up" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCV5AFH6lj3_vydlH2CY8iy6_4xEC3uhSFrWiyr7W4KxZC9cLeWOfh4KUeElzo7s-AZZ-A5ikGqkmwEaKdi4JZ2EtjMMJaIwsj6mehUHhClo7WHDd13WHz6l-wo2Jdj7Sl6T0Un83DKeFBzicdlAT8o8a_0ewn0U--TXeX6JBttGOpawS3eKOMJdKMq7uZYWQf31rItZV1AJiw8l4YupCyvkP6ANpjQsEeJLXYFLqXdxkYhP_ADXrF1E-78R6fCRHxQXAXXR0AXsTFp"/>
+<div class="absolute top-3 left-3 bg-white/90 dark:bg-black/80 backdrop-blur text-xs font-bold px-2 py-1 rounded text-gray-800 dark:text-gray-200">
+                                Fizik
+                            </div>
+</div>
+<div class="p-5 flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-bold text-lg text-gray-900 dark:text-white line-clamp-1">Laboratuvar Raporu</h4>
+<span class="bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 text-xs px-2 py-1 rounded font-medium whitespace-nowrap">2 Gün</span>
+</div>
+<p class="text-sm text-gray-500 dark:text-gray-400 mb-4 line-clamp-2">Geçen haftaki deneyin sonuçlarını analiz edin.</p>
+<div class="mt-auto">
+<div class="flex justify-between text-xs mb-1">
+<span class="text-gray-500 dark:text-gray-400">İlerleme</span>
+<span class="font-bold text-gray-400">0%</span>
+</div>
+<div class="w-full bg-gray-100 dark:bg-gray-700 rounded-full h-2 mb-4">
+<div class="bg-primary h-2 rounded-full" style="width: 5%"></div>
+</div>
+<button class="w-full py-2 bg-white dark:bg-surface-dark-light border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg text-sm font-medium transition-colors">
+                                    Başla
+                                </button>
+</div>
+</div>
+</div>
+<!-- Assignment Card 3 -->
+<div class="bg-white dark:bg-surface-dark rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm hover:shadow-md transition-shadow flex flex-col h-full">
+<div class="h-32 w-full relative bg-gray-200 dark:bg-gray-800 rounded-t-xl overflow-hidden">
+<img class="w-full h-full object-cover opacity-80" data-alt="Open book and writing materials" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKAbrFqQfq44QQUxbuaTZleFnp6Ori8-I-YrHnEGh4SQxZ0saKA8UWVQglyJKqdNmxyVCxS1F2t5LV6JoE33RRhr554LYDZSG3JFVRLerxyCI0edJrsuCpeWsVFTDV0JOl8vDYFCXeFEgGVX02g0ZWWMGxkUKX7I09O3JnuzhtNi060gcX7wKa7mglJUBxutv8czsAoFXiFhdtDVM1A59YaQ5JL7YF_jwa8_l5lvhVReAkPmBXLXCVcYcTLgz0732rV16zND9JEWoV"/>
+<div class="absolute top-3 left-3 bg-white/90 dark:bg-black/80 backdrop-blur text-xs font-bold px-2 py-1 rounded text-gray-800 dark:text-gray-200">
+                                Edebiyat
+                            </div>
+</div>
+<div class="p-5 flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-bold text-lg text-gray-900 dark:text-white line-clamp-1">Kompozisyon</h4>
+<span class="bg-red-500 text-white text-xs px-2 py-1 rounded font-medium whitespace-nowrap animate-pulse">Bugün Son!</span>
+</div>
+<p class="text-sm text-gray-500 dark:text-gray-400 mb-4 line-clamp-2">'Modern Toplumda Teknoloji' konulu 500 kelimelik yazı.</p>
+<div class="mt-auto">
+<div class="flex justify-between text-xs mb-1">
+<span class="text-gray-500 dark:text-gray-400">İlerleme</span>
+<span class="font-bold text-green-500">80%</span>
+</div>
+<div class="w-full bg-gray-100 dark:bg-gray-700 rounded-full h-2 mb-4">
+<div class="bg-green-500 h-2 rounded-full" style="width: 80%"></div>
+</div>
+<button class="w-full py-2 bg-primary hover:bg-primary-hover text-white rounded-lg text-sm font-medium transition-colors">
+                                    Tamamla
+                                </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Achievement Badges Section -->
+<div class="bg-white dark:bg-surface-dark rounded-xl border border-gray-200 dark:border-gray-800 p-6 shadow-sm">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
+<div>
+<h3 class="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+<span class="material-icons text-yellow-500 text-xl">military_tech</span>
+                            Başarı Rozetleri
+                        </h3>
+<p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Son kazandığın ödüller ve hedefler.</p>
+</div>
+<button class="text-sm font-medium px-4 py-2 rounded-lg bg-gray-100 dark:bg-surface-dark-light hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-white transition-colors">Tüm Rozetler</button>
+</div>
+<div class="flex flex-wrap gap-4 justify-center sm:justify-start">
+<!-- Badge 1 -->
+<div class="flex flex-col items-center p-4 bg-background-light dark:bg-background-dark rounded-xl border border-gray-200 dark:border-gray-700 w-32 text-center group hover:border-primary/50 transition-colors cursor-default">
+<div class="w-14 h-14 rounded-full bg-purple-500/20 text-purple-500 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+<span class="material-icons text-3xl">psychology</span>
+</div>
+<span class="font-bold text-sm text-gray-900 dark:text-white mb-1">Matematik Dahisi</span>
+<span class="text-[10px] text-gray-500 dark:text-gray-400">5 Ödev Tamamla</span>
+</div>
+<!-- Badge 2 -->
+<div class="flex flex-col items-center p-4 bg-background-light dark:bg-background-dark rounded-xl border border-gray-200 dark:border-gray-700 w-32 text-center group hover:border-primary/50 transition-colors cursor-default">
+<div class="w-14 h-14 rounded-full bg-blue-500/20 text-blue-500 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+<span class="material-icons text-3xl">speed</span>
+</div>
+<span class="font-bold text-sm text-gray-900 dark:text-white mb-1">Hızlı Okuyucu</span>
+<span class="text-[10px] text-gray-500 dark:text-gray-400">10 Makale Oku</span>
+</div>
+<!-- Badge 3 -->
+<div class="flex flex-col items-center p-4 bg-background-light dark:bg-background-dark rounded-xl border border-gray-200 dark:border-gray-700 w-32 text-center group hover:border-primary/50 transition-colors cursor-default">
+<div class="w-14 h-14 rounded-full bg-orange-500/20 text-orange-500 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+<span class="material-icons text-3xl">local_fire_department</span>
+</div>
+<span class="font-bold text-sm text-gray-900 dark:text-white mb-1">7 Gün Serisi</span>
+<span class="text-[10px] text-gray-500 dark:text-gray-400">1 Hafta Aralıksız</span>
+</div>
+<!-- Badge 4 (Locked) -->
+<div class="flex flex-col items-center p-4 bg-background-light dark:bg-background-dark rounded-xl border border-gray-200 dark:border-gray-700 w-32 text-center opacity-60">
+<div class="w-14 h-14 rounded-full bg-gray-500/20 text-gray-400 flex items-center justify-center mb-3 relative">
+<span class="material-icons text-3xl">auto_stories</span>
+<div class="absolute inset-0 bg-black/10 dark:bg-black/30 rounded-full flex items-center justify-center backdrop-blur-[1px]">
+<span class="material-icons text-sm text-gray-500 dark:text-gray-300">lock</span>
+</div>
+</div>
+<span class="font-bold text-sm text-gray-900 dark:text-white mb-1">Kitap Kurdu</span>
+<span class="text-[10px] text-gray-500 dark:text-gray-400">Kilitli</span>
+</div>
+</div>
+</div>
+<footer class="text-center text-xs text-gray-500 dark:text-gray-600 py-4 mt-8">
+                © 2023 EduPortal Öğrenci Yönetim Sistemi. Tüm hakları saklıdır.
+            </footer>
+</div>
+</main>
+</body></html>
