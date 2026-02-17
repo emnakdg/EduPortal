@@ -1,4 +1,111 @@
-﻿@{
+﻿@using EduPortal.Domain.Enums
+@model EduPortal.Application.DTOs.StudentDashboardDto
+@{
     ViewData["Title"] = "Öğrenci Paneli";
-    Layout = "_AuthLayout";
 }
+
+<div class="stat-cards">
+    <div class="stat-card blue">
+        <div class="stat-icon"><i class="fas fa-clock"></i></div>
+        <div class="stat-info">
+            <span class="stat-value">@Model.PendingCount</span>
+            <span class="stat-label">Bekleyen Ödev</span>
+        </div>
+    </div>
+    <div class="stat-card green">
+        <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+        <div class="stat-info">
+            <span class="stat-value">@Model.CompletedCount</span>
+            <span class="stat-label">Tamamlanan</span>
+        </div>
+    </div>
+    <div class="stat-card purple">
+        <div class="stat-icon"><i class="fas fa-question-circle"></i></div>
+        <div class="stat-info">
+            <span class="stat-value">@Model.TotalQuestionsSolved</span>
+            <span class="stat-label">Çözülen Soru</span>
+        </div>
+    </div>
+    <div class="stat-card orange">
+        <div class="stat-icon"><i class="fas fa-fire"></i></div>
+        <div class="stat-info">
+            <span class="stat-value">@Model.Streak 🔥</span>
+            <span class="stat-label">Gün Serisi</span>
+        </div>
+    </div>
+</div>
+
+<div class="card mt-lg">
+    <div class="card-header">
+        <h3>Aktif Ödevlerim</h3>
+        <a asp-action="Assignments" class="view-all-link">Tümünü Gör →</a>
+    </div>
+    <div class="card-body">
+        @if (Model.ActiveAssignments.Any())
+        {
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Ödev</th>
+                        <th>Ders</th>
+                        <th>Konu</th>
+                        <th>Öğretmen</th>
+                        <th>Soru</th>
+                        <th>Son Tarih</th>
+                        <th>Öncelik</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var a in Model.ActiveAssignments)
+                    {
+                        <tr>
+                            <td><strong>@a.Title</strong></td>
+                            <td><span class="badge badge-blue">@a.SubjectName</span></td>
+                            <td>@a.TopicName</td>
+                            <td>@a.TeacherName</td>
+                            <td>@a.QuestionCount</td>
+                            <td>
+                                @{
+                                    var daysLeft = (a.DueDate - DateTime.Now).Days;
+                                }
+                                @if (daysLeft < 0)
+                                {
+                                    <span class="badge badge-red">Gecikmiş</span>
+                                }
+                                else if (daysLeft <= 2)
+                                {
+                                    <span class="badge badge-orange">@a.DueDate.ToString("dd.MM.yyyy")</span>
+                                }
+                                else
+                                {
+                                    <span>@a.DueDate.ToString("dd.MM.yyyy")</span>
+                                }
+                            </td>
+                            <td>
+                                @if (a.Priority == AssignmentPriority.High)
+                                {
+                                    <span class="badge badge-red">Yüksek</span>
+                                }
+                                else if (a.Priority == AssignmentPriority.Medium)
+                                {
+                                    <span class="badge badge-orange">Orta</span>
+                                }
+                                else
+                                {
+                                    <span class="badge badge-green">Düşük</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="empty-state">
+                <i class="fas fa-check-double empty-state-icon"></i>
+                <p class="empty-state-text">Tüm ödevlerini tamamladın! 🎉</p>
+            </div>
+        }
+    </div>
+</div>

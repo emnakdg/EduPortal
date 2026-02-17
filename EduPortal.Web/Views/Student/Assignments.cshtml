@@ -1,0 +1,155 @@
+@using EduPortal.Domain.Enums
+@model List<EduPortal.Application.DTOs.StudentAssignmentDto>
+@{
+    ViewData["Title"] = "Ödevlerim";
+}
+
+@if (TempData["success"] != null || Context.Request.Query.ContainsKey("success"))
+{
+    <div class="alert-success">
+        <i class="fas fa-check-circle"></i>
+        @(TempData["success"] ?? Context.Request.Query["success"])
+    </div>
+}
+@if (Context.Request.Query.ContainsKey("error"))
+{
+    <div class="alert-danger">
+        <i class="fas fa-exclamation-circle"></i>
+        @Context.Request.Query["error"]
+    </div>
+}
+
+<div class="stat-cards mb-md">
+    <div class="stat-card blue">
+        <div class="stat-icon"><i class="fas fa-list"></i></div>
+        <div class="stat-info">
+            <span class="stat-value">@Model.Count</span>
+            <span class="stat-label">Toplam Ödev</span>
+        </div>
+    </div>
+    <div class="stat-card orange">
+        <div class="stat-icon"><i class="fas fa-clock"></i></div>
+        <div class="stat-info">
+            <span class="stat-value">@Model.Count(a => a.Status == AssignmentStatus.Pending)</span>
+            <span class="stat-label">Bekleyen</span>
+        </div>
+    </div>
+    <div class="stat-card green">
+        <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+        <div class="stat-info">
+            <span class="stat-value">@Model.Count(a => a.Status == AssignmentStatus.Completed)</span>
+            <span class="stat-label">Tamamlanan</span>
+        </div>
+    </div>
+    <div class="stat-card purple">
+        <div class="stat-icon"><i class="fas fa-star"></i></div>
+        <div class="stat-info">
+            @{
+                var completedWithScore = Model.Where(a => a.Score.HasValue).ToList();
+                var avgScore = completedWithScore.Any() ? completedWithScore.Average(a => a.Score!.Value) : 0;
+            }
+            <span class="stat-value">%@((int)avgScore)</span>
+            <span class="stat-label">Ortalama Puan</span>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>Tüm Ödevlerim</h3>
+    </div>
+    <div class="card-body">
+        @if (Model.Any())
+        {
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Ödev</th>
+                        <th>Ders</th>
+                        <th>Konu</th>
+                        <th>Öğretmen</th>
+                        <th>Soru</th>
+                        <th>Son Tarih</th>
+                        <th>Durum</th>
+                        <th>Puan</th>
+                        <th>İşlem</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var a in Model)
+                    {
+                        <tr>
+                            <td><strong>@a.Title</strong></td>
+                            <td><span class="badge badge-blue">@a.SubjectName</span></td>
+                            <td>@a.TopicName</td>
+                            <td>@a.TeacherName</td>
+                            <td>@a.QuestionCount</td>
+                            <td>
+                                @{
+                                    var daysLeft = (a.DueDate - DateTime.Now).Days;
+                                }
+                                @if (a.Status != AssignmentStatus.Completed && daysLeft < 0)
+                                {
+                                    <span class="badge badge-red">Gecikmiş!</span>
+                                }
+                                else
+                                {
+                                    @a.DueDate.ToString("dd.MM.yyyy")
+                                }
+                            </td>
+                            <td>
+                                @switch (a.Status)
+                                {
+                                    case AssignmentStatus.Pending:
+                                        <span class="badge badge-orange">Bekliyor</span>
+                                        break;
+                                    case AssignmentStatus.InProgress:
+                                        <span class="badge badge-blue">Devam Ediyor</span>
+                                        break;
+                                    case AssignmentStatus.Completed:
+                                        <span class="badge badge-green">Tamamlandı</span>
+                                        break;
+                                    case AssignmentStatus.Overdue:
+                                        <span class="badge badge-red">Gecikmiş</span>
+                                        break;
+                                }
+                            </td>
+                            <td>
+                                @if (a.Score.HasValue)
+                                {
+                                    var scoreClass = a.Score >= 70 ? "badge-green" : a.Score >= 50 ? "badge-orange" : "badge-red";
+                                    <span class="badge @scoreClass">%@a.Score</span>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">—</span>
+                                }
+                            </td>
+                            <td>
+                                @if (a.Status == AssignmentStatus.Pending || a.Status == AssignmentStatus.InProgress)
+                                {
+                                    <a asp-action="AssignmentDetail" asp-route-id="@a.Id" class="btn-action primary btn-sm">
+                                        <i class="fas fa-pen"></i> Çöz
+                                    </a>
+                                }
+                                else if (a.Status == AssignmentStatus.Completed)
+                                {
+                                    <a asp-action="AssignmentDetail" asp-route-id="@a.Id" class="btn-action secondary btn-sm">
+                                        <i class="fas fa-eye"></i> Detay
+                                    </a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="empty-state">
+                <i class="fas fa-inbox empty-state-icon"></i>
+                <p class="empty-state-text">Henüz atanmış ödevin bulunmuyor.</p>
+            </div>
+        }
+    </div>
+</div>

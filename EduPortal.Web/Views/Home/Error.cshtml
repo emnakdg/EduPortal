@@ -1,0 +1,31 @@
+﻿@{
+    ViewData["Title"] = "Hata";
+    Layout = "_AuthLayout";
+}
+
+<div class="error-page">
+    <div class="error-content">
+        <div class="error-icon">⚠️</div>
+        <h2 class="mb-md">Bir Hata Oluştu</h2>
+
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <div class="error-detail">
+                <p class="error-detail-label">
+                    <i class="fas fa-exclamation-triangle"></i> Hata Detayı
+                </p>
+                <p>@ViewBag.ErrorMessage</p>
+            </div>
+        }
+        else
+        {
+            <p class="text-muted mb-md">
+                Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin.
+            </p>
+        }
+
+        <a href="javascript:history.back()" class="btn-action primary d-inline-flex">
+            <i class="fas fa-arrow-left"></i> Geri Dön
+        </a>
+    </div>
+</div>

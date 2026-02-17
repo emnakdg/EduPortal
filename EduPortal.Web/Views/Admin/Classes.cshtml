@@ -5,7 +5,7 @@
 
 @if (ViewBag.SuccessMessage != null)
 {
-    <div class="alert alert-success">
+    <div class="alert-success">
         <i class="fas fa-check-circle"></i> @ViewBag.SuccessMessage
     </div>
 }
@@ -47,10 +47,10 @@
                             <td>@c.TeacherName</td>
                             <td><span class="badge badge-blue">@c.StudentCount</span></td>
                             <td>
-                                <a asp-action="EditClass" asp-route-id="@c.Id" class="btn btn-ghost btn-sm" style="margin-right:4px;">
+                                <a asp-action="EditClass" asp-route-id="@c.Id" class="btn btn-ghost btn-sm mr-sm">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <form asp-action="DeleteClass" asp-route-id="@c.Id" method="post" style="display:inline;">
+                                <form asp-action="DeleteClass" asp-route-id="@c.Id" method="post" class="d-inline">
                                     <button type="submit" class="btn btn-ghost btn-sm" onclick="return confirm('Bu sınıfı silmek istediğinize emin misiniz?')">
                                         <i class="fas fa-trash"></i>
                                     </button>
@@ -62,7 +62,7 @@
                 else
                 {
                     <tr>
-                        <td colspan="6" style="text-align:center; padding:40px; color:var(--text-muted);">
+                        <td colspan="6" class="td-empty">
                             Henüz sınıf oluşturulmamış.
                         </td>
                     </tr>

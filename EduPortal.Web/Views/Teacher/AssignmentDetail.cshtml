@@ -1,0 +1,217 @@
+﻿@using EduPortal.Domain.Enums
+@model EduPortal.Application.DTOs.AssignmentDetailDto
+@{
+    ViewData["Title"] = "Ödev Detay";
+}
+
+<a asp-action="Assignments" class="back-link">
+    <i class="fas fa-arrow-left"></i> Ödevlerime Dön
+</a>
+
+@if (TempData["success"] != null)
+{
+    <div class="alert-success">
+        <i class="fas fa-check-circle"></i> @TempData["success"]
+    </div>
+}
+
+<div class="grid-2">
+
+    <div class="card">
+        <div class="card-header">
+            <h3><i class="fas fa-file-alt"></i> Ödev Bilgileri</h3>
+        </div>
+        <div class="card-body card-body-padded">
+            <div class="flex-col">
+                <div>
+                    <label class="detail-label">Başlık</label>
+                    <p class="detail-value-lg">@Model.Title</p>
+                </div>
+                @if (!string.IsNullOrEmpty(Model.Description))
+                {
+                    <div>
+                        <label class="detail-label">Açıklama</label>
+                        <p class="detail-value">@Model.Description</p>
+                    </div>
+                }
+                <div class="grid-2-inner">
+                    <div>
+                        <label class="detail-label">Ders</label>
+                        <p class="detail-value"><span class="badge badge-blue">@Model.SubjectName</span></p>
+                    </div>
+                    <div>
+                        <label class="detail-label">Konu</label>
+                        <p class="detail-value">@Model.TopicName</p>
+                    </div>
+                    <div>
+                        <label class="detail-label">Soru Sayısı</label>
+                        <p class="detail-value text-bold">@Model.QuestionCount</p>
+                    </div>
+                    <div>
+                        <label class="detail-label">Son Tarih</label>
+                        <p class="detail-value">@Model.DueDate.ToString("dd MMMM yyyy")</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h3><i class="fas fa-chart-bar"></i> İstatistikler</h3>
+        </div>
+        <div class="card-body card-body-padded">
+            <div class="grid-3">
+                <div class="stat-box">
+                    <p class="stat-box-value icon-blue">@Model.TotalStudents</p>
+                    <p class="stat-box-label">Toplam Öğrenci</p>
+                </div>
+                <div class="stat-box">
+                    <p class="stat-box-value icon-green">@Model.CompletedStudents</p>
+                    <p class="stat-box-label">Tamamlayan</p>
+                </div>
+                <div class="stat-box">
+                    @{
+                        var scoreClass = Model.AverageScore >= 70 ? "--green" : Model.AverageScore >= 50 ? "--orange" : "--red";
+                    }
+                    <p class="stat-box-value" style="color:var(@scoreClass);">%@((int)Model.AverageScore)</p>
+                    <p class="stat-box-label">Ortalama Puan</p>
+                </div>
+            </div>
+
+            @{
+                var completionRate = Model.TotalStudents > 0
+                ? (int)((double)Model.CompletedStudents / Model.TotalStudents * 100)
+                : 0;
+            }
+            <div class="progress-section">
+                <div class="flex-between">
+                    <span class="progress-label">Tamamlanma Oranı</span>
+                    <span class="progress-value">%@completionRate</span>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-fill" style="width:@(completionRate)%;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3><i class="fas fa-users"></i> Öğrenci Sonuçları</h3>
+    </div>
+    <div class="card-body">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Öğrenci</th>
+                    <th>Numara</th>
+                    <th>Durum</th>
+                    <th>Doğru</th>
+                    <th>Yanlış</th>
+                    <th>Boş</th>
+                    <th>Puan</th>
+                    <th>Teslim Tarihi</th>
+                    <th>Geri Bildirim</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var s in Model.StudentResults)
+                {
+                    <tr>
+                        <td><strong>@s.StudentName</strong></td>
+                        <td>@s.StudentNumber</td>
+                        <td>
+                            @if (s.Status == AssignmentStatus.Completed)
+                            {
+                                <span class="badge badge-green">Tamamlandı</span>
+                            }
+                            else if (s.Status == AssignmentStatus.Pending)
+                            {
+                                <span class="badge badge-orange">Bekliyor</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-blue">Devam Ediyor</span>
+                            }
+                        </td>
+                        <td>@(s.Status == AssignmentStatus.Completed ? s.CorrectAnswers : "—")</td>
+                        <td>@(s.Status == AssignmentStatus.Completed ? s.WrongAnswers : "—")</td>
+                        <td>@(s.Status == AssignmentStatus.Completed ? s.EmptyAnswers : "—")</td>
+                        <td>
+                            @if (s.Score.HasValue)
+                            {
+                                var sc = s.Score >= 70 ? "badge-green" : s.Score >= 50 ? "badge-orange" : "badge-red";
+                                <span class="badge @sc">%@s.Score</span>
+                            }
+                            else
+                            {
+                                <span class="text-muted">—</span>
+                            }
+                        </td>
+                        <td>@(s.CompletedAt?.ToString("dd.MM.yyyy HH:mm") ?? "—")</td>
+                        <td>
+                            @if (s.Status == AssignmentStatus.Completed)
+                            {
+                                @if (!string.IsNullOrEmpty(s.TeacherFeedback))
+                                {
+                                    <span class="feedback-written" title="@s.TeacherFeedback">
+                                        <i class="fas fa-comment-dots"></i> Yazıldı
+                                    </span>
+                                }
+                                <button type="button" class="btn btn-ghost btn-sm"
+                                        onclick="openFeedback(@s.StudentAssignmentId, '@s.StudentName', '@(s.TeacherFeedback?.Replace("'", "\\'") ?? "")')">
+                                    <i class="fas fa-pen"></i>
+                                </button>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div id="feedbackModal" class="modal-overlay">
+    <div class="modal-box">
+        <div class="modal-header">
+            <h3><i class="fas fa-comment"></i> Geri Bildirim</h3>
+            <button onclick="closeFeedback()" class="modal-close">✕</button>
+        </div>
+        <p id="feedbackStudentName" class="modal-subtitle"></p>
+        <form method="post" asp-action="GiveFeedback">
+            <input type="hidden" name="studentAssignmentId" id="feedbackSaId" />
+            <input type="hidden" name="assignmentId" value="@Model.Id" />
+            <textarea name="feedback" id="feedbackText" class="form-input form-input-no-icon textarea-full"
+                      rows="4" placeholder="Geri bildiriminizi yazın..."></textarea>
+            <div class="flex-end">
+                <button type="button" onclick="closeFeedback()" class="btn-action secondary">
+                    İptal
+                </button>
+                <button type="submit" class="btn-action primary">
+                    <i class="fas fa-paper-plane"></i> Kaydet
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function openFeedback(saId, studentName, existingFeedback) {
+            document.getElementById('feedbackSaId').value = saId;
+            document.getElementById('feedbackStudentName').textContent = studentName + ' için geri bildirim:';
+            document.getElementById('feedbackText').value = existingFeedback;
+            document.getElementById('feedbackModal').style.display = 'flex';
+        }
+
+        function closeFeedback() {
+            document.getElementById('feedbackModal').style.display = 'none';
+        }
+
+        document.getElementById('feedbackModal').addEventListener('click', function(e) {
+            if (e.target === this) closeFeedback();
+        });
+    </script>
+}

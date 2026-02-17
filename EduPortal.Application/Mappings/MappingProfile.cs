@@ -45,6 +45,18 @@ namespace EduPortal.Application.Mappings
                 .ForMember(d => d.Topics, opt => opt.MapFrom(s => s.Topics.OrderBy(t => t.OrderIndex)));
 
             CreateMap<Topic, TopicDto>();
+
+            // StudentAssignment → StudentAssignmentDto
+            CreateMap<StudentAssignment, StudentAssignmentDto>()
+                .ForMember(d => d.AssignmentId, opt => opt.MapFrom(s => s.AssignmentId))
+                .ForMember(d => d.Title, opt => opt.MapFrom(s => s.Assignment.Title))
+                .ForMember(d => d.Description, opt => opt.MapFrom(s => s.Assignment.Description))
+                .ForMember(d => d.TopicName, opt => opt.MapFrom(s => s.Assignment.Topic.Name))
+                .ForMember(d => d.SubjectName, opt => opt.MapFrom(s => s.Assignment.Topic.Unit.Subject.Name))
+                .ForMember(d => d.TeacherName, opt => opt.MapFrom(s => s.Assignment.Teacher.User.FullName))
+                .ForMember(d => d.QuestionCount, opt => opt.MapFrom(s => s.Assignment.QuestionCount))
+                .ForMember(d => d.DueDate, opt => opt.MapFrom(s => s.Assignment.DueDate))
+                .ForMember(d => d.Priority, opt => opt.MapFrom(s => s.Assignment.Priority));
         }
     }
 }

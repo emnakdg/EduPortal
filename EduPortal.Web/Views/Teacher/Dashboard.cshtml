@@ -35,13 +35,13 @@
     </div>
 </div>
 
-<div style="display:flex; gap:16px; margin-top:20px;">
+<div class="action-row">
     <a asp-action="CreateAssignment" class="btn-action primary">
         <i class="fas fa-plus"></i> Yeni Ödev Oluştur
     </a>
 </div>
 
-<div class="card" style="margin-top: 24px;">
+<div class="card mt-lg">
     <div class="card-header">
         <h3>Sorumlu Olduğum Sınıflar</h3>
     </div>
@@ -72,10 +72,10 @@
 
 @if (Model.RecentAssignments.Any())
 {
-    <div class="card" style="margin-top: 24px;">
+    <div class="card mt-lg">
         <div class="card-header">
             <h3>Son Ödevler</h3>
-            <a asp-action="Assignments" style="color:var(--primary); font-size:0.9rem;">Tümünü Gör →</a>
+            <a asp-action="Assignments" class="view-all-link">Tümünü Gör →</a>
         </div>
         <div class="card-body">
             <table class="data-table">

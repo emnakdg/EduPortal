@@ -5,7 +5,7 @@
 
 @if (ViewBag.SuccessMessage != null)
 {
-    <div class="alert alert-success">
+    <div class="alert-success">
         <i class="fas fa-check-circle"></i> @ViewBag.SuccessMessage
     </div>
 }
@@ -49,10 +49,10 @@
                             <td><span class="badge badge-green">@s.CompletedAssignments</span></td>
                             <td><span class="badge badge-orange">@s.PendingAssignments</span></td>
                             <td>
-                                <a asp-action="EditStudent" asp-route-id="@s.Id" class="btn btn-ghost btn-sm" style="margin-right:4px;">
+                                <a asp-action="EditStudent" asp-route-id="@s.Id" class="btn btn-ghost btn-sm mr-sm">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <form asp-action="DeleteStudent" asp-route-id="@s.Id" method="post" style="display:inline;">
+                                <form asp-action="DeleteStudent" asp-route-id="@s.Id" method="post" class="d-inline">
                                     <button type="submit" class="btn btn-ghost btn-sm" onclick="return confirm('Bu öğrenciyi silmek istediğinize emin misiniz?')">
                                         <i class="fas fa-trash"></i>
                                     </button>
@@ -64,7 +64,7 @@
                 else
                 {
                     <tr>
-                        <td colspan="7" style="text-align:center; padding:40px; color:var(--text-muted);">
+                        <td colspan="7" class="td-empty">
                             Henüz öğrenci eklenmemiş.
                         </td>
                     </tr>

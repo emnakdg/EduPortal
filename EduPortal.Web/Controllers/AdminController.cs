@@ -56,6 +56,14 @@ public class AdminController : Controller
             ));
             return RedirectToAction("Teachers", new { success = "Öğretmen başarıyla eklendi!" });
         }
+        catch (FluentValidation.ValidationException vex)
+        {
+            foreach (var error in vex.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.ErrorMessage);
+            }
+            return View(model);
+        }
         catch (Exception ex)
         {
             ModelState.AddModelError(string.Empty, ex.Message);
@@ -128,9 +136,12 @@ public class AdminController : Controller
             ));
             return RedirectToAction("Students", new { success = "Öğrenci başarıyla eklendi!" });
         }
-        catch (Exception ex)
+        catch (FluentValidation.ValidationException vex)
         {
-            ModelState.AddModelError(string.Empty, ex.Message);
+            foreach (var error in vex.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.ErrorMessage);
+            }
             ViewBag.Classes = await _mediator.Send(new GetAllClassesQuery());
             return View(model);
         }
@@ -206,9 +217,12 @@ public class AdminController : Controller
             ));
             return RedirectToAction("Classes", new { success = "Sınıf başarıyla oluşturuldu!" });
         }
-        catch (Exception ex)
+        catch (FluentValidation.ValidationException vex)
         {
-            ModelState.AddModelError(string.Empty, ex.Message);
+            foreach (var error in vex.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.ErrorMessage);
+            }
             ViewBag.Teachers = await _mediator.Send(new GetAllTeachersQuery());
             return View(model);
         }

@@ -15,19 +15,19 @@
     <div class="card-header">
         <h3>Sınıf Bilgileri</h3>
     </div>
-    <div class="card-body" style="padding: 24px;">
+    <div class="card-body card-body-padded">
         <form asp-action="CreateClass" method="post">
-            <div asp-validation-summary="ModelOnly" class="alert alert-error" style="display:@(ViewData.ModelState.ErrorCount > 0 ? "flex" : "none")"></div>
+            <div asp-validation-summary="ModelOnly" class="alert-error validation-summary @(ViewData.ModelState.ErrorCount > 0 ? "has-errors" : "")"></div>
             <div class="form-grid">
                 <div class="form-group">
                     <label asp-for="Name"></label>
                     <input asp-for="Name" class="form-input form-input-no-icon" placeholder="10-A" />
-                    <span asp-validation-for="Name" style="color:var(--red); font-size:0.8rem;"></span>
+                    <span asp-validation-for="Name" class="validation-error"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Semester"></label>
                     <input asp-for="Semester" class="form-input form-input-no-icon" placeholder="2024-2025 Güz" />
-                    <span asp-validation-for="Semester" style="color:var(--red); font-size:0.8rem;"></span>
+                    <span asp-validation-for="Semester" class="validation-error"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Room"></label>
@@ -42,12 +42,12 @@
                             <option value="@t.Id">@t.FullName (@t.Branch)</option>
                         }
                     </select>
-                    <span asp-validation-for="TeacherId" style="color:var(--red); font-size:0.8rem;"></span>
+                    <span asp-validation-for="TeacherId" class="validation-error"></span>
                 </div>
             </div>
-            <div style="margin-top: 20px;">
+            <div class="form-actions">
                 <button type="submit" class="btn-action primary"><i class="fas fa-save"></i> Kaydet</button>
-                <a asp-action="Classes" class="btn-action" style="margin-left:8px;">İptal</a>
+                <a asp-action="Classes" class="btn-action secondary">İptal</a>
             </div>
         </form>
     </div>

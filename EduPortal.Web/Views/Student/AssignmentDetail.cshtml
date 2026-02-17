@@ -1,0 +1,178 @@
+@using EduPortal.Domain.Enums
+@model EduPortal.Application.DTOs.StudentAssignmentDto
+@{
+    ViewData["Title"] = "Ödev Detay";
+    var isCompleted = Model.Status == AssignmentStatus.Completed;
+}
+
+<a asp-action="Assignments" class="back-link">
+    <i class="fas fa-arrow-left"></i> Ödevlerime Dön
+</a>
+
+<div class="grid-2">
+    <!-- Sol: Ödev Bilgileri -->
+    <div class="card">
+        <div class="card-header">
+            <h3><i class="fas fa-file-alt"></i> Ödev Bilgileri</h3>
+        </div>
+        <div class="card-body card-body-padded">
+            <div class="flex-col">
+                <div>
+                    <label class="detail-label">Ödev Başlığı</label>
+                    <p class="detail-value-lg">@Model.Title</p>
+                </div>
+
+                @if (!string.IsNullOrEmpty(Model.Description))
+                {
+                    <div>
+                        <label class="detail-label">Açıklama</label>
+                        <p class="detail-value">@Model.Description</p>
+                    </div>
+                }
+
+                <div class="grid-2-inner">
+                    <div>
+                        <label class="detail-label">Ders</label>
+                        <p class="detail-value"><span class="badge badge-blue">@Model.SubjectName</span></p>
+                    </div>
+                    <div>
+                        <label class="detail-label">Konu</label>
+                        <p class="detail-value">@Model.TopicName</p>
+                    </div>
+                    <div>
+                        <label class="detail-label">Öğretmen</label>
+                        <p class="detail-value">@Model.TeacherName</p>
+                    </div>
+                    <div>
+                        <label class="detail-label">Soru Sayısı</label>
+                        <p class="detail-value text-bold">@Model.QuestionCount</p>
+                    </div>
+                    <div>
+                        <label class="detail-label">Son Tarih</label>
+                        <p class="detail-value">@Model.DueDate.ToString("dd MMMM yyyy")</p>
+                    </div>
+                    <div>
+                        <label class="detail-label">Öncelik</label>
+                        <p class="detail-value">
+                            @if (Model.Priority == AssignmentPriority.High)
+                            {
+                                <span class="badge badge-red">Yüksek</span>
+                            }
+                            else if (Model.Priority == AssignmentPriority.Medium)
+                            {
+                                <span class="badge badge-orange">Orta</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-green">Düşük</span>
+                            }
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sağ: Teslim / Sonuç -->
+    <div class="card">
+        @if (isCompleted)
+        {
+            <div class="card-header">
+                <h3><i class="fas fa-chart-bar"></i> Sonuçlarım</h3>
+                <span class="badge badge-green">Tamamlandı</span>
+            </div>
+            <div class="card-body card-body-padded">
+                <div class="text-center mb-md">
+                    @{
+                        var scoreClass = Model.Score >= 70 ? "green" : Model.Score >= 50 ? "orange" : "red";
+                    }
+                    <div class="score-circle" style="border-color:var(--@scoreClass);">
+                        <span class="score-circle-value" style="color:var(--@scoreClass);">%@Model.Score</span>
+                    </div>
+                    <p class="text-muted text-sm">Başarı Puanı</p>
+                </div>
+
+                <div class="grid-3">
+                    <div class="stat-box">
+                        <i class="fas fa-check icon-green result-icon"></i>
+                        <p class="stat-box-value mt-sm">@Model.CorrectAnswers</p>
+                        <p class="stat-box-label">Doğru</p>
+                    </div>
+                    <div class="stat-box">
+                        <i class="fas fa-times icon-red result-icon"></i>
+                        <p class="stat-box-value mt-sm">@Model.WrongAnswers</p>
+                        <p class="stat-box-label">Yanlış</p>
+                    </div>
+                    <div class="stat-box">
+                        <i class="fas fa-minus icon-muted result-icon"></i>
+                        <p class="stat-box-value mt-sm">@Model.EmptyAnswers</p>
+                        <p class="stat-box-label">Boş</p>
+                    </div>
+                </div>
+
+                @if (Model.CompletedAt.HasValue)
+                {
+                    <p class="text-center mt-md text-muted text-sm">
+                        <i class="fas fa-calendar-check"></i> Teslim: @Model.CompletedAt.Value.ToString("dd MMMM yyyy HH:mm")
+                    </p>
+                }
+
+                @if (!string.IsNullOrEmpty(Model.TeacherFeedback))
+                {
+                    <div class="teacher-feedback mt-md">
+                        <p class="detail-label mb-md">
+                            <i class="fas fa-comment"></i> Öğretmen Geri Bildirimi
+                        </p>
+                        <p>@Model.TeacherFeedback</p>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="card-header">
+                <h3><i class="fas fa-pen"></i> Ödevi Teslim Et</h3>
+                <span class="badge badge-orange">Bekliyor</span>
+            </div>
+            <div class="card-body card-body-padded">
+                <form method="post" asp-action="SubmitAssignment">
+                    <input type="hidden" name="studentAssignmentId" value="@Model.Id" />
+
+                    <p class="text-muted text-sm mb-md">
+                        Ödevi çözdükten sonra sonuçlarını aşağıya gir. Toplam soru sayısı: <strong>@Model.QuestionCount</strong>
+                    </p>
+
+                    <div class="flex-col">
+                        <div class="form-group">
+                            <label class="text-bold">
+                                <i class="fas fa-check icon-green"></i> Doğru Sayısı
+                            </label>
+                            <input type="number" name="correctAnswers" class="form-input form-input-no-icon"
+                                   min="0" max="@Model.QuestionCount" value="0" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="text-bold">
+                                <i class="fas fa-times icon-red"></i> Yanlış Sayısı
+                            </label>
+                            <input type="number" name="wrongAnswers" class="form-input form-input-no-icon"
+                                   min="0" max="@Model.QuestionCount" value="0" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="text-bold">
+                                <i class="fas fa-minus icon-muted"></i> Boş Sayısı
+                            </label>
+                            <input type="number" name="emptyAnswers" class="form-input form-input-no-icon"
+                                   min="0" max="@Model.QuestionCount" value="0" required />
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-action primary btn-submit-full mt-md">
+                        <i class="fas fa-paper-plane"></i> Teslim Et
+                    </button>
+                </form>
+            </div>
+        }
+    </div>
+</div>

@@ -5,7 +5,7 @@
 
 @if (ViewBag.SuccessMessage != null)
 {
-    <div class="alert alert-success">
+    <div class="alert-success">
         <i class="fas fa-check-circle"></i> @ViewBag.SuccessMessage
     </div>
 }
@@ -64,7 +64,11 @@
                                 }
                             </td>
                             <td>
-                                <form asp-action="DeleteAssignment" asp-route-id="@a.Id" method="post" style="display:inline;">
+                                <a asp-action="AssignmentDetail" asp-route-id="@a.Id"
+                                   class="btn btn-ghost btn-sm" title="Detay">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <form asp-action="DeleteAssignment" asp-route-id="@a.Id" method="post" class="d-inline">
                                     <button type="submit" class="btn btn-ghost btn-sm" onclick="return confirm('Bu ödevi silmek istediğinize emin misiniz?')">
                                         <i class="fas fa-trash"></i>
                                     </button>
@@ -76,7 +80,7 @@
                 else
                 {
                     <tr>
-                        <td colspan="8" style="text-align:center; padding:40px; color:var(--text-muted);">
+                        <td colspan="8" class="td-empty">
                             Henüz ödev oluşturulmamış. <a asp-action="CreateAssignment">İlk ödevinizi oluşturun!</a>
                         </td>
                     </tr>

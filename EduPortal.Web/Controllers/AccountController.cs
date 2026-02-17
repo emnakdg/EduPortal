@@ -1,5 +1,7 @@
-﻿using EduPortal.Domain.Entities;
+﻿using EduPortal.Application.Features.Students.Commands;
+using EduPortal.Domain.Entities;
 using EduPortal.Web.ViewModels.Account;
+using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,11 +11,13 @@ public class AccountController : Controller
 {
     private readonly SignInManager<AppUser> _signInManager;
     private readonly UserManager<AppUser> _userManager;
+    private readonly IMediator _mediator;
 
-    public AccountController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager)
+    public AccountController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, IMediator mediator)
     {
         _signInManager = signInManager;
         _userManager = userManager;
+        _mediator = mediator;
     }
 
     [HttpGet]
@@ -55,7 +59,45 @@ public class AccountController : Controller
     [HttpGet]
     public IActionResult Register()
     {
+        if (User.Identity?.IsAuthenticated == true)
+            return RedirectToAction("RedirectByRole");
+
         return View();
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Register(RegisterViewModel model)
+    {
+        if (!ModelState.IsValid)
+            return View(model);
+
+        try
+        {
+            await _mediator.Send(new CreateStudentCommand(
+                model.FullName, model.Email, model.Password, model.StudentNumber, null
+            ));
+
+            // Otomatik giriş yap
+            await _signInManager.PasswordSignInAsync(
+                model.Email, model.Password, isPersistent: false, lockoutOnFailure: false);
+
+            return RedirectToAction("Dashboard", "Student");
+        }
+        catch (FluentValidation.ValidationException vex)
+        {
+            foreach (var error in vex.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.ErrorMessage);
+            }
+            return View(model);
+        }
+        catch (Exception ex)
+        {
+            var msg = ex.InnerException?.Message ?? ex.Message;
+            ModelState.AddModelError(string.Empty, msg);
+            return View(model);
+        }
     }
 
     [HttpPost]

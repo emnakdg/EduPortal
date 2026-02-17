@@ -1,1 +1,84 @@
-﻿
+﻿@model EduPortal.Web.ViewModels.Account.RegisterViewModel
+@{
+    ViewData["Title"] = "Kayıt Ol";
+    Layout = "_AuthLayout";
+}
+
+<div class="auth-container">
+    <div class="auth-hero">
+        <div class="auth-hero-content">
+            <div class="auth-hero-icon">🎓</div>
+            <h1>Geleceğinizi Birlikte<br><span>İnşa Edelim</span></h1>
+            <p>Modern araçlar ve işbirliği odaklı öğrenme ile sınırları kaldırın. EduPortal'ın yenilikçi dünyasına bugün katılın.</p>
+        </div>
+    </div>
+
+    <div class="auth-form-section">
+        <div class="auth-form-container">
+            <div class="auth-logo">
+                <div class="auth-logo-icon">🎓</div>
+                EduPortal
+            </div>
+
+            <h2>Hesap Oluştur</h2>
+            <p class="subtitle">Eğitim dünyasına katılmak için bilgilerinizi girin.</p>
+
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="alert-error validation-summary @(ViewData.ModelState.ErrorCount > 0 ? "has-errors" : "")"></div>
+
+                <div class="form-group">
+                    <label asp-for="FullName">Ad Soyad</label>
+                    <div class="form-input-wrapper">
+                        <i class="fas fa-user input-icon"></i>
+                        <input asp-for="FullName" class="form-input" placeholder="Ahmet Yılmaz" />
+                    </div>
+                    <span asp-validation-for="FullName" class="validation-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Email">E-posta</label>
+                    <div class="form-input-wrapper">
+                        <i class="fas fa-envelope input-icon"></i>
+                        <input asp-for="Email" class="form-input" placeholder="ahmet@okul.com" />
+                    </div>
+                    <span asp-validation-for="Email" class="validation-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="StudentNumber">Öğrenci No</label>
+                    <div class="form-input-wrapper">
+                        <i class="fas fa-id-card input-icon"></i>
+                        <input asp-for="StudentNumber" class="form-input" placeholder="2024001" />
+                    </div>
+                    <span asp-validation-for="StudentNumber" class="validation-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Password">Şifre</label>
+                    <div class="form-input-wrapper">
+                        <i class="fas fa-lock input-icon"></i>
+                        <input asp-for="Password" class="form-input" placeholder="••••••••" />
+                    </div>
+                    <span asp-validation-for="Password" class="validation-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ConfirmPassword">Şifre Tekrar</label>
+                    <div class="form-input-wrapper">
+                        <i class="fas fa-lock input-icon"></i>
+                        <input asp-for="ConfirmPassword" class="form-input" placeholder="••••••••" />
+                    </div>
+                    <span asp-validation-for="ConfirmPassword" class="validation-error"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-user-plus"></i> Kayıt Ol
+                </button>
+
+                <p class="auth-footer">
+                    Zaten hesabınız var mı? <a href="/Account/Login">Giriş Yapın</a>
+                </p>
+            </form>
+        </div>
+    </div>
+</div>

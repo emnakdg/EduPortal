@@ -1,8 +1,12 @@
+using EduPortal.Application.Common.Behaviors;
 using EduPortal.Application.Common.Interfaces;
 using EduPortal.Application.Mappings;
 using EduPortal.Domain.Entities;
 using EduPortal.Infrastructure.Context;
 using EduPortal.Infrastructure.Seed;
+using EduPortal.Web.Middlewares;
+using FluentValidation;
+using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -14,6 +18,10 @@ Log.Logger = new LoggerConfiguration()
     .WriteTo.File("Logs/log-.txt", rollingInterval: RollingInterval.Day)
     .CreateLogger();
 builder.Host.UseSerilog();
+
+builder.Services.AddValidatorsFromAssembly(typeof(MappingProfile).Assembly);
+
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
 builder.Services.AddDbContext<EduPortalDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -39,6 +47,7 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.ExpireTimeSpan = TimeSpan.FromHours(24);
 });
 
+
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(IEduPortalDbContext).Assembly));
 builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
@@ -54,6 +63,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();

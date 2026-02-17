@@ -107,6 +107,15 @@ public class TeacherController : Controller
             ));
             return RedirectToAction("Assignments", new { success = "Ödev başarıyla oluşturuldu!" });
         }
+        catch (FluentValidation.ValidationException vex)
+        {
+            foreach (var error in vex.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.ErrorMessage);
+            }
+            await PopulateAssignmentViewBags();
+            return View(model);
+        }
         catch (Exception ex)
         {
             var errorMsg = ex.InnerException?.Message ?? ex.Message;
@@ -114,6 +123,25 @@ public class TeacherController : Controller
             await PopulateAssignmentViewBags();
             return View(model);
         }
+    }
+
+    public async Task<IActionResult> AssignmentDetail(int id)
+    {
+        var detail = await _mediator.Send(new GetAssignmentDetailQuery(id));
+
+        if (detail == null)
+            return RedirectToAction("Assignments");
+
+        return View(detail);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> GiveFeedback(int studentAssignmentId, string feedback, int assignmentId)
+    {
+        await _mediator.Send(new GiveFeedbackCommand(studentAssignmentId, feedback));
+        TempData["success"] = "Geri bildirim kaydedildi!";
+        return RedirectToAction("AssignmentDetail", new { id = assignmentId });
     }
 
     [HttpPost]
