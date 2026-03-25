@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using EduPortal.Application.DTOs;
 using EduPortal.Domain.Entities;
 using EduPortal.Domain.Enums;
@@ -18,6 +18,7 @@ namespace EduPortal.Application.Mappings
             CreateMap<Student, StudentDto>()
                 .ForMember(d => d.FullName, opt => opt.MapFrom(s => s.User.FullName))
                 .ForMember(d => d.Email, opt => opt.MapFrom(s => s.User.Email ?? ""))
+                .ForMember(d => d.ClassId, opt => opt.MapFrom(s => s.ClassId))
                 .ForMember(d => d.ClassName, opt => opt.MapFrom(s => s.Class != null ? s.Class.Name : null))
                 .ForMember(d => d.CompletedAssignments, opt => opt.MapFrom(s => s.StudentAssignments.Count(sa => sa.Status == AssignmentStatus.Completed)))
                 .ForMember(d => d.PendingAssignments, opt => opt.MapFrom(s => s.StudentAssignments.Count(sa => sa.Status == AssignmentStatus.Pending)))
@@ -27,6 +28,7 @@ namespace EduPortal.Application.Mappings
                         : 0));
 
             CreateMap<Class, ClassDto>()
+                .ForMember(d => d.TeacherId, opt => opt.MapFrom(s => s.TeacherId))
                 .ForMember(d => d.TeacherName, opt => opt.MapFrom(s => s.Teacher.User.FullName))
                 .ForMember(d => d.StudentCount, opt => opt.MapFrom(s => s.Students.Count));
 
@@ -46,6 +48,9 @@ namespace EduPortal.Application.Mappings
 
             CreateMap<Topic, TopicDto>();
 
+            CreateMap<TeacherNote, TeacherNoteDto>()
+                .ForMember(d => d.TeacherName, opt => opt.MapFrom(s => s.Teacher.User.FullName))
+                .ForMember(d => d.StudentName, opt => opt.MapFrom(s => s.Student.User.FullName));
             // StudentAssignment → StudentAssignmentDto
             CreateMap<StudentAssignment, StudentAssignmentDto>()
                 .ForMember(d => d.AssignmentId, opt => opt.MapFrom(s => s.AssignmentId))

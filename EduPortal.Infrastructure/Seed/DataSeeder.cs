@@ -1,4 +1,4 @@
-﻿using EduPortal.Domain.Entities;
+using EduPortal.Domain.Entities;
 using EduPortal.Domain.Enums;
 using EduPortal.Infrastructure.Context;
 using Microsoft.AspNetCore.Identity;
@@ -19,6 +19,7 @@ public static class DataSeeder
         await SeedTeachersAsync(context, userManager);
         await SeedClassesAsync(context);
         await SeedStudentsAsync(context, userManager);
+        await SeedAssignmentsAsync(context);
     }
 
     private static async Task SeedRolesAsync(RoleManager<IdentityRole<int>> roleManager)
@@ -300,12 +301,16 @@ public static class DataSeeder
         {
             ("9-A",  "2024-2025 Güz", "Derslik 101"),
             ("9-B",  "2024-2025 Güz", "Derslik 102"),
+            ("9-C",  "2024-2025 Güz", "Derslik 103"),
             ("10-A", "2024-2025 Güz", "Derslik 201"),
             ("10-B", "2024-2025 Güz", "Derslik 202"),
+            ("10-C", "2024-2025 Güz", "Derslik 203"),
             ("11-A", "2024-2025 Güz", "Derslik 301"),
             ("11-B", "2024-2025 Güz", "Derslik 302"),
+            ("11-C", "2024-2025 Güz", "Derslik 303"),
             ("12-A", "2024-2025 Güz", "Derslik 401"),
             ("12-B", "2024-2025 Güz", "Derslik 402"),
+            ("12-C", "2024-2025 Güz", "Derslik 403")
         };
 
         for (int i = 0; i < classes.Length; i++)
@@ -328,37 +333,42 @@ public static class DataSeeder
 
         var classes = await context.Classes.ToListAsync();
 
-        var studentNames = new[]
-        {
-            "Emre Acar", "Selin Bulut", "Kaan Çetin", "Deniz Dağ", "Ece Erdem",
-            "Furkan Güneş", "Gamze Hakan", "Hüseyin İnan", "İrem Kılıç", "Serkan Koç",
-            "Leyla Mert", "Murat Naz", "Nisa Oral", "Onur Polat", "Pınar Reis",
-            "Ramazan Sarı", "Sude Taner", "Taha Uçar", "Ümit Vural", "Vildan Yalçın",
-            "Berkay Zengin", "Ceren Akın", "Doğan Bayrak", "Esra Coşkun", "Ferhat Durmuş",
-            "Gizem Eroğlu", "Halil Fidan", "Iraz Gökçe", "Jale Hamza", "Kerem İlhan",
-            "Lale Kaplan", "Melih Laçin", "Nehir Meral", "Oğuz Nacar", "Pelin Olgun",
-            "Rüya Parlak", "Sinan Korkut", "Tuğçe Sönmez", "Uğur Tekin", "Yasemin Uzun",
-            "Arda Varol", "Buse Yaman", "Cem Zorlu", "Dilan Aksoy", "Erdem Bilge",
-            "Firat Canan", "Gül Duran", "Harun Ekinci", "İlke Fatih", "Kübra Güzel",
-            "Mete Han", "Nihan Işık", "Ozan Jandar", "Reyhan Kurt", "Selim Lale",
-            "Tuba Mavi", "Utku Nesrin", "Yiğit Okan", "Zara Pınar", "Alperen Rüzgar"
-        };
+        var firstNames = new[] { "Emre", "Selin", "Kaan", "Deniz", "Ece", "Furkan", "Gamze", "Hüseyin", "İrem", "Serkan", "Leyla", "Murat", "Nisa", "Onur", "Pınar", "Ramazan", "Sude", "Taha", "Ümit", "Vildan", "Berkay", "Ceren", "Doğan", "Esra", "Ferhat", "Gizem", "Halil", "Iraz", "Jale", "Kerem", "Lale", "Melih", "Nehir", "Oğuz", "Pelin", "Rüya", "Sinan", "Tuğçe", "Uğur", "Yasemin", "Arda", "Buse", "Cem", "Dilan", "Erdem", "Firat", "Gül", "Harun", "İlke", "Kübra", "Mete", "Nihan", "Ozan", "Reyhan", "Selim", "Tuba", "Utku", "Yiğit", "Zara", "Alperen" };
+        var lastNames = new[] { "Acar", "Bulut", "Çetin", "Dağ", "Erdem", "Güneş", "Hakan", "İnan", "Kılıç", "Koç", "Mert", "Naz", "Oral", "Polat", "Reis", "Sarı", "Taner", "Uçar", "Vural", "Yalçın", "Zengin", "Akın", "Bayrak", "Coşkun", "Durmuş", "Eroğlu", "Fidan", "Gökçe", "Hamza", "İlhan", "Kaplan", "Laçin", "Meral", "Nacar", "Olgun", "Parlak", "Korkut", "Sönmez", "Tekin", "Uzun", "Varol", "Yaman", "Zorlu", "Aksoy", "Bilge", "Canan", "Duran", "Ekinci", "Fatih", "Güzel", "Han", "Işık", "Jandar", "Kurt", "Lale", "Mavi", "Nesrin", "Okan", "Pınar", "Rüzgar" };
 
-        for (int i = 0; i < studentNames.Length; i++)
+        var random = new Random(12345);
+        int studentCount = 150;
+
+        var generatedEmails = new HashSet<string>();
+
+        for (int i = 0; i < studentCount; i++)
         {
-            var name = studentNames[i];
-            var email = name.ToLower()
+            var firstName = firstNames[random.Next(firstNames.Length)];
+            var lastName = lastNames[random.Next(lastNames.Length)];
+            var fullName = $"{firstName} {lastName}";
+            
+            var baseEmail = fullName.ToLower()
                 .Replace(" ", ".")
                 .Replace("ş", "s").Replace("ç", "c").Replace("ğ", "g")
                 .Replace("ı", "i").Replace("ö", "o").Replace("ü", "u")
-                .Replace("İ", "I")
-                + "@ogrenci.eduportal.com";
+                .Replace("İ", "I");
+
+            var email = $"{baseEmail}@ogrenci.eduportal.com";
+            
+            // Handle duplicates
+            int count = 1;
+            while (generatedEmails.Contains(email))
+            {
+                email = $"{baseEmail}{count}@ogrenci.eduportal.com";
+                count++;
+            }
+            generatedEmails.Add(email);
 
             var user = new AppUser
             {
                 UserName = email,
                 Email = email,
-                FullName = name,
+                FullName = fullName,
                 Role = UserRole.Student,
                 EmailConfirmed = true,
                 IsActive = true
@@ -376,6 +386,89 @@ public static class DataSeeder
                 });
             }
         }
+        await context.SaveChangesAsync();
+    }
+
+    private static async Task SeedAssignmentsAsync(EduPortalDbContext context)
+    {
+        if (await context.Assignments.AnyAsync()) return;
+
+        var classes = await context.Classes.Include(c => c.Students).ToListAsync();
+        var teachers = await context.Teachers.Include(t => t.User).ToListAsync();
+        var subjects = await context.Subjects.Include(s => s.Units).ThenInclude(u => u.Topics).ToListAsync();
+
+        var random = new Random(12345);
+        int extraDays = 0;
+
+        foreach (var cls in classes)
+        {
+            if (!cls.Students.Any()) continue;
+
+            // Give each class 6 different assignments from different teachers/branches
+            var selectedTeachers = teachers.OrderBy(x => random.Next()).Take(6).ToList();
+            
+            foreach (var teacher in selectedTeachers)
+            {
+                var branchSubject = subjects.FirstOrDefault(s => teacher.Branch.Contains(s.Name) || s.Name.Contains(teacher.Branch));
+                if (branchSubject == null) continue;
+
+                var allTopics = branchSubject.Units.SelectMany(u => u.Topics).ToList();
+                if (!allTopics.Any()) continue;
+                
+                var topic = allTopics[random.Next(allTopics.Count)];
+
+                bool isPast = random.NextDouble() > 0.3; // 70% chance of past due
+                var dueDate = isPast 
+                    ? DateTime.Now.AddDays(-random.Next(1, 30)) 
+                    : DateTime.Now.AddDays(random.Next(1, 30));
+
+                int questionCount = random.Next(10, 40);
+
+                var assignment = new Assignment
+                {
+                    Title = $"{cls.Name} - {topic.Name} Ödevi",
+                    Description = $"{topic.Name} ile ilgili hazırlanan {questionCount} soruluk değerlendirme testi.",
+                    QuestionCount = questionCount,
+                    DueDate = dueDate,
+                    Priority = (AssignmentPriority)random.Next(0, 3),
+                    TeacherId = teacher.Id,
+                    TopicId = topic.Id
+                };
+
+                context.Assignments.Add(assignment);
+
+                // Add to students
+                foreach (var student in cls.Students)
+                {
+                    var studentAssignment = new StudentAssignment
+                    {
+                        Assignment = assignment,
+                        StudentId = student.Id,
+                        Status = AssignmentStatus.Pending
+                    };
+
+                    if (isPast || random.NextDouble() > 0.5) // Complete it if it's in the past or 50% chance if future
+                    {
+                        studentAssignment.Status = AssignmentStatus.Completed;
+                        int correct = random.Next(0, questionCount + 1);
+                        int wrong = random.Next(0, questionCount - correct + 1);
+                        int empty = questionCount - correct - wrong;
+
+                        studentAssignment.CorrectAnswers = correct;
+                        studentAssignment.WrongAnswers = wrong;
+                        studentAssignment.EmptyAnswers = empty;
+                        studentAssignment.Score = (int)Math.Round((double)correct / questionCount * 100);
+                        studentAssignment.CompletedAt = dueDate.AddDays(-random.Next(0, 3));
+                        
+                        if (studentAssignment.Score > 80) studentAssignment.TeacherFeedback = "Çok başarılı, tebrikler!";
+                        else if (studentAssignment.Score < 50) studentAssignment.TeacherFeedback = "Daha fazla çalışmalısın.";
+                    }
+
+                    context.StudentAssignments.Add(studentAssignment);
+                }
+            }
+        }
+        
         await context.SaveChangesAsync();
     }
 }

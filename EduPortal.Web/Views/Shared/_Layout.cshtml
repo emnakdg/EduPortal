@@ -1,4 +1,4 @@
-﻿@{
+@{
     var currentPage = ViewContext.RouteData.Values["page"]?.ToString() ?? "";
 }
 <!DOCTYPE html>
@@ -20,7 +20,7 @@
                 </div>
             </div>
 
-            <nav class="sidebar-nav">
+                <nav class="sidebar-nav">
                 <div class="nav-section">
                     <span class="nav-section-title">ANA MENÜ</span>
                     @if (User.IsInRole("Admin"))
@@ -37,8 +37,8 @@
                         <a href="/Admin/Classes" class="nav-item @(currentPage!.Contains("Admin/Classes") ? "active" : "")">
                             <i class="fas fa-school"></i> Sınıflar
                         </a>
-                        <a href="/Admin/Subjects" class="nav-item @(currentPage!.Contains("Admin/Subjects") ? "active" : "")">
-                            <i class="fas fa-book"></i> Müfredat
+                        <a href="/Admin/Assignments" class="nav-item @(currentPage!.Contains("Admin/Assignments") ? "active" : "")">
+                            <i class="fas fa-tasks"></i> Ödevler
                         </a>
                     }
                     else if (User.IsInRole("Teacher"))
@@ -52,6 +52,12 @@
                         <a href="/Teacher/Assignments" class="nav-item @(currentPage!.Contains("Teacher/Assignments") ? "active" : "")">
                             <i class="fas fa-tasks"></i> Ödevler
                         </a>
+                        <a href="/Teacher/Notes" class="nav-item @(currentPage!.Contains("Teacher/Notes") ? "active" : "")">
+                            <i class="fas fa-sticky-note"></i> Öğrenci Notları
+                        </a>
+                        <a href="/Teacher/Profile" class="nav-item @(currentPage!.Contains("Teacher/Profile") ? "active" : "")">
+                            <i class="fas fa-user-circle"></i> Profilim
+                        </a>
                     }
                     else if (User.IsInRole("Student"))
                     {
@@ -61,16 +67,13 @@
                         <a href="/Student/Assignments" class="nav-item @(currentPage!.Contains("Student/Assignments") ? "active" : "")">
                             <i class="fas fa-tasks"></i> Ödevlerim
                         </a>
+                        <a href="/Student/Profile" class="nav-item @(currentPage!.Contains("Student/Profile") ? "active" : "")">
+                            <i class="fas fa-user-circle"></i> Profilim
+                        </a>
                     }
                 </div>
-
-                <div class="nav-section">
-                    <span class="nav-section-title">AYARLAR</span>
-                    <a href="#" class="nav-item">
-                        <i class="fas fa-cog"></i> Ayarlar
-                    </a>
-                </div>
             </nav>
+
 
             <div class="sidebar-footer">
                 <form method="post" asp-action="Logout" asp-controller="Account">

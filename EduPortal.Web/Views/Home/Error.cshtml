@@ -1,31 +1,30 @@
-﻿@{
-    ViewData["Title"] = "Hata";
-    Layout = "_AuthLayout";
+@{
+    ViewData["Title"] = "Hata Oluştu";
+    Layout = "_Layout";
 }
 
-<div class="error-page">
-    <div class="error-content">
-        <div class="error-icon">⚠️</div>
-        <h2 class="mb-md">Bir Hata Oluştu</h2>
-
+<div class="card" style="max-width: 600px; margin: 4rem auto; text-align: center;">
+    <div class="card-body" style="padding: 3rem;">
+        <i class="fas fa-times-circle" style="font-size: 4rem; color: #dc3545; margin-bottom: 1rem;"></i>
+        <h2 style="margin-bottom: 1rem; color: #333;">Bir Hata Oluştu</h2>
+        <p style="color: #666; margin-bottom: 1rem;">İşleminiz sırasında beklenmeyen bir hata meydana geldi.</p>
+        
         @if (ViewBag.ErrorMessage != null)
         {
-            <div class="error-detail">
-                <p class="error-detail-label">
-                    <i class="fas fa-exclamation-triangle"></i> Hata Detayı
-                </p>
-                <p>@ViewBag.ErrorMessage</p>
+            <div style="background-color: #f8d7da; color: #721c24; padding: 1rem; border-radius: 8px; margin-bottom: 2rem;">
+                <strong>Hata Detayı:</strong> @ViewBag.ErrorMessage
             </div>
         }
         else
         {
-            <p class="text-muted mb-md">
-                Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin.
-            </p>
+            <p style="color: #666; margin-bottom: 2rem;">Lütfen daha sonra tekrar deneyin veya sistem yöneticinize başvurun.</p>
         }
 
-        <a href="javascript:history.back()" class="btn-action primary d-inline-flex">
+        <button onclick="history.back()" class="btn-action secondary">
             <i class="fas fa-arrow-left"></i> Geri Dön
+        </button>
+        <a href="/" class="btn-action primary">
+            <i class="fas fa-home"></i> Ana Sayfaya Git
         </a>
     </div>
 </div>

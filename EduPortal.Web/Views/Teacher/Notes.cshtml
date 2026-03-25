@@ -1,0 +1,92 @@
+@model List<EduPortal.Application.DTOs.TeacherNoteDto>
+@{
+    ViewData["Title"] = "Öğrenci Notları";
+    var students = ViewBag.Students as List<EduPortal.Application.DTOs.StudentDto> ?? new();
+}
+
+@if (ViewBag.SuccessMessage != null)
+{
+    <div class="alert-success">
+        <i class="fas fa-check-circle"></i> @ViewBag.SuccessMessage
+    </div>
+}
+
+<div class="page-header">
+    <p class="page-subtitle">Öğrencileriniz hakkında gizli notlar alın</p>
+</div>
+
+<div class="card" style="margin-bottom:2rem;">
+    <div class="card-header">
+        <h3><i class="fas fa-plus-circle"></i> Yeni Not Ekle</h3>
+    </div>
+    <div class="card-body card-body-padded">
+        <form asp-action="CreateNote" method="post">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="studentId">Öğrenci</label>
+                    <select name="studentId" id="studentId" class="form-input form-input-no-icon" required>
+                        <option value="">-- Öğrenci Seçin --</option>
+                        @foreach (var s in students)
+                        {
+                            <option value="@s.Id">@s.FullName (@s.StudentNumber)</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group" style="grid-column: 1/-1;">
+                    <label for="content">Not</label>
+                    <textarea name="content" id="content" class="form-input form-input-no-icon" rows="3"
+                              placeholder="Öğrenci hakkında notunuzu yazın..." required></textarea>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn-action primary"><i class="fas fa-save"></i> Not Kaydet</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>Notlarım (@Model.Count)</h3>
+    </div>
+    <div class="card-body">
+        @if (Model.Any())
+        {
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Öğrenci</th>
+                        <th>Not</th>
+                        <th>Tarih</th>
+                        <th>İşlem</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var note in Model)
+                    {
+                        <tr>
+                            <td><strong>@note.StudentName</strong></td>
+                            <td>@note.Content</td>
+                            <td>@note.CreatedAt.ToString("dd.MM.yyyy HH:mm")</td>
+                            <td>
+                                <form asp-action="DeleteNote" asp-route-id="@note.Id" method="post" class="d-inline">
+                                    <button type="submit" class="btn btn-ghost btn-sm"
+                                            onclick="return confirm('Bu notu silmek istediğinize emin misiniz?')">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="td-empty" style="padding:2rem; text-align:center;">
+                <i class="fas fa-sticky-note" style="font-size:2rem; color:#999; margin-bottom:.5rem;"></i>
+                <p>Henüz not alınmamış.</p>
+            </div>
+        }
+    </div>
+</div>

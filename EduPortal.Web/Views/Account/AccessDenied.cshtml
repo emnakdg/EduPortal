@@ -1,0 +1,19 @@
+@{
+    ViewData["Title"] = "Erişim Reddedildi";
+    Layout = "_Layout";
+}
+
+<div class="card" style="max-width: 600px; margin: 4rem auto; text-align: center;">
+    <div class="card-body" style="padding: 3rem;">
+        <i class="fas fa-exclamation-triangle" style="font-size: 4rem; color: #dc3545; margin-bottom: 1rem;"></i>
+        <h2 style="margin-bottom: 1rem; color: #333;">Erişim Engellendi</h2>
+        <p style="color: #666; margin-bottom: 2rem;">Bu sayfayı görüntülemek için gerekli yetkilere sahip değilsiniz.</p>
+        
+        <button onclick="history.back()" class="btn-action secondary">
+            <i class="fas fa-arrow-left"></i> Geri Dön
+        </button>
+        <a href="/" class="btn-action primary">
+            <i class="fas fa-home"></i> Ana Sayfaya Git
+        </a>
+    </div>
+</div>

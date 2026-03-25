@@ -1,8 +1,9 @@
-﻿using EduPortal.Application.Features.Assignments.Commands;
+using EduPortal.Application.Features.Assignments.Commands;
 using EduPortal.Application.Features.Assignments.Queries;
 using EduPortal.Application.Features.Dashboard.Queries;
 using EduPortal.Application.Features.Students.Queries;
 using EduPortal.Domain.Entities;
+using EduPortal.Web.ViewModels.Student;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -78,5 +79,51 @@ public class StudentController : Controller
             TempData["error"] = "Ödev bulunamadı.";
 
         return RedirectToAction("Assignments");
+    }
+
+    // ─── Profil ──────────────────────────────────────────────────────────────
+
+    public async Task<IActionResult> Profile()
+    {
+        var studentId = await GetStudentIdAsync();
+        var allStudents = await _mediator.Send(new GetAllStudentsQuery());
+        var student = allStudents.FirstOrDefault(s => s.Id == studentId);
+        if (student == null) return RedirectToAction("Dashboard");
+
+        var model = new StudentProfileViewModel
+        {
+            FullName = student.FullName,
+            Email = student.Email,
+            StudentNumber = student.StudentNumber,
+            ClassName = student.ClassName,
+            CompletedAssignments = student.CompletedAssignments,
+            PendingAssignments = student.PendingAssignments,
+            SuccessRate = student.SuccessRate
+        };
+        return View(model);
+    }
+
+    public IActionResult ChangePassword() => View(new StudentChangePasswordViewModel());
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> ChangePassword(StudentChangePasswordViewModel model)
+    {
+        if (!ModelState.IsValid) return View(model);
+
+        var user = await _userManager.GetUserAsync(User);
+        if (user == null) return RedirectToAction("Dashboard");
+
+        var result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+        if (result.Succeeded)
+        {
+            TempData["success"] = "Şifreniz başarıyla değiştirildi!";
+            return RedirectToAction("Profile");
+        }
+
+        foreach (var error in result.Errors)
+            ModelState.AddModelError(string.Empty, error.Description);
+
+        return View(model);
     }
 }

@@ -50,7 +50,6 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(IEduPortalDbContext).Assembly));
 builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
-builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -69,7 +68,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Account}/{action=Login}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 using (var scope = app.Services.CreateScope())
 {

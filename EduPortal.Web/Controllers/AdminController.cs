@@ -1,4 +1,5 @@
-﻿using EduPortal.Application.DTOs;
+using EduPortal.Application.DTOs;
+using EduPortal.Application.Features.Assignments.Queries;
 using EduPortal.Application.Features.Classes.Commands;
 using EduPortal.Application.Features.Classes.Queries;
 using EduPortal.Application.Features.Dashboard.Queries;
@@ -158,7 +159,7 @@ public class AdminController : Controller
             FullName = student.FullName,
             Email = student.Email,
             StudentNumber = student.StudentNumber,
-            ClassId = null // ClassId dto'da yok, sınıf adından bulunacak
+            ClassId = student.ClassId
         };
         return View(model);
     }
@@ -248,7 +249,7 @@ public class AdminController : Controller
             Name = cls.Name,
             Semester = cls.Semester,
             Room = cls.Room,
-            TeacherId = 0 // TeacherId dto'da yok
+            TeacherId = cls.TeacherId
         };
         return View(model);
     }
@@ -265,5 +266,11 @@ public class AdminController : Controller
 
         await _mediator.Send(new UpdateClassCommand(model.Id, model.Name, model.Semester, model.Room, model.TeacherId));
         return RedirectToAction("Classes", new { success = "Sınıf bilgileri güncellendi!" });
+    }
+
+    public async Task<IActionResult> Assignments()
+    {
+        var assignments = await _mediator.Send(new GetAllAssignmentsQuery());
+        return View(assignments);
     }
 }

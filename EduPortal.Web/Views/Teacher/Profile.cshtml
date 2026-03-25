@@ -1,0 +1,61 @@
+@model EduPortal.Web.ViewModels.Teacher.TeacherProfileViewModel
+@{
+    ViewData["Title"] = "Profilim";
+}
+
+@if (TempData["success"] != null)
+{
+    <div class="alert-success"><i class="fas fa-check-circle"></i> @TempData["success"]</div>
+}
+
+<div class="page-header">
+    <p class="page-subtitle">Hesap bilgileriniz</p>
+</div>
+
+<div class="stats-grid" style="margin-bottom:2rem;">
+    <div class="stat-card">
+        <div class="stat-icon"><i class="fas fa-school"></i></div>
+        <div class="stat-info">
+            <span class="stat-value">@Model.ClassCount</span>
+            <span class="stat-label">Sınıf</span>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon"><i class="fas fa-users"></i></div>
+        <div class="stat-info">
+            <span class="stat-value">@Model.StudentCount</span>
+            <span class="stat-label">Öğrenci</span>
+        </div>
+    </div>
+</div>
+
+<div class="card" style="margin-bottom:2rem;">
+    <div class="card-header">
+        <h3><i class="fas fa-user-circle"></i> Profil Bilgileri</h3>
+    </div>
+    <div class="card-body card-body-padded">
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Ad Soyad</label>
+                <input class="form-input form-input-no-icon input-readonly" value="@Model.FullName" readonly />
+            </div>
+            <div class="form-group">
+                <label>E-posta</label>
+                <input class="form-input form-input-no-icon input-readonly" value="@Model.Email" readonly />
+            </div>
+            <div class="form-group">
+                <label>Branş</label>
+                <input class="form-input form-input-no-icon input-readonly" value="@Model.Branch" readonly />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3><i class="fas fa-lock"></i> Şifre Değiştir</h3>
+    </div>
+    <div class="card-body card-body-padded">
+        <a asp-action="ChangePassword" class="btn-action primary"><i class="fas fa-key"></i> Şifre Değiştir</a>
+    </div>
+</div>

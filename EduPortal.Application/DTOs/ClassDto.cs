@@ -1,4 +1,4 @@
-﻿namespace EduPortal.Application.DTOs;
+namespace EduPortal.Application.DTOs;
 
 public class ClassDto
 {
@@ -6,6 +6,7 @@ public class ClassDto
     public string Name { get; set; } = string.Empty;
     public string Semester { get; set; } = string.Empty;
     public string? Room { get; set; }
+    public int TeacherId { get; set; }
     public string TeacherName { get; set; } = string.Empty;
     public int StudentCount { get; set; }
 }

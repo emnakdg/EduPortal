@@ -1,4 +1,4 @@
-﻿using EduPortal.Application.Features.Students.Commands;
+using EduPortal.Application.Features.Students.Commands;
 using EduPortal.Domain.Entities;
 using EduPortal.Web.ViewModels.Account;
 using MediatR;
@@ -115,5 +115,11 @@ public class AccountController : Controller
         if (User.IsInRole("Teacher"))
             return RedirectToAction("Dashboard", "Teacher");
         return RedirectToAction("Dashboard", "Student");
+    }
+
+    [HttpGet]
+    public IActionResult AccessDenied()
+    {
+        return View();
     }
 }

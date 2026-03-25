@@ -1,0 +1,55 @@
+@model EduPortal.Web.ViewModels.Teacher.EditAssignmentViewModel
+@{
+    ViewData["Title"] = "Ödev Düzenle";
+}
+
+<div class="page-header">
+    <p class="page-subtitle">Ödev bilgilerini güncelleyin</p>
+    <a asp-action="Assignments" class="btn-action"><i class="fas fa-arrow-left"></i> Geri Dön</a>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3>Ödev Bilgileri</h3>
+    </div>
+    <div class="card-body card-body-padded">
+        <form asp-action="EditAssignment" method="post">
+            <input type="hidden" asp-for="Id" />
+            <div asp-validation-summary="ModelOnly" class="validation-error"></div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label asp-for="Title"></label>
+                    <input asp-for="Title" class="form-input form-input-no-icon" />
+                    <span asp-validation-for="Title" class="validation-error"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="QuestionCount"></label>
+                    <input asp-for="QuestionCount" type="number" class="form-input form-input-no-icon" min="1" max="100" />
+                    <span asp-validation-for="QuestionCount" class="validation-error"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DueDate"></label>
+                    <input asp-for="DueDate" type="datetime-local" class="form-input form-input-no-icon"
+                           value="@Model.DueDate.ToString("yyyy-MM-ddTHH:mm")" />
+                    <span asp-validation-for="DueDate" class="validation-error"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Priority"></label>
+                    <select asp-for="Priority" class="form-input form-input-no-icon">
+                        <option value="0">Düşük</option>
+                        <option value="1">Orta</option>
+                        <option value="2">Yüksek</option>
+                    </select>
+                </div>
+                <div class="form-group" style="grid-column: 1/-1;">
+                    <label asp-for="Description"></label>
+                    <textarea asp-for="Description" class="form-input form-input-no-icon" rows="4"></textarea>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn-action primary"><i class="fas fa-save"></i> Güncelle</button>
+                <a asp-action="Assignments" class="btn-action secondary">İptal</a>
+            </div>
+        </form>
+    </div>
+</div>
